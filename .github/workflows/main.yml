@@ -1,4 +1,4 @@
-name: ci
+name: backend_push_dev
 
 on:
   workflow_dispatch:
