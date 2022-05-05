@@ -1,32 +1,18 @@
 package com.project23.app.pojo;
 
-import javax.persistence.*;
+import lombok.Data;
 
+import javax.persistence.*;
+@Data
 @Entity
-@Table(name = "\"Label\"")
+@Table(name = "\"label\"", schema = "public")
 public class Label {
     @Id
     @Column(name = "label_id", nullable = false)
-    private Integer id;
+    private Long id;
 
-    @Lob
     @Column(name = "name", nullable = false)
     private String name;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
 }

@@ -1,34 +1,21 @@
 package com.project23.app.pojo;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+@Data
 @Entity
-@Table(name = "\"Source_System\"")
+@Table(name = "\"source_system\"", schema = "public")
 public class SourceSystem {
     @Id
     @Column(name = "source_id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private Integer name;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getName() {
-        return name;
-    }
-
-    public void setName(Integer name) {
-        this.name = name;
-    }
 
 }

@@ -1,13 +1,15 @@
 package com.project23.app.pojo;
 
-import javax.persistence.*;
+import lombok.Data;
 
+import javax.persistence.*;
+@Data
 @Entity
-@Table(name = "\"Favourite\"")
+@Table(name = "\"favourite\"", schema = "public")
 public class Favourite {
     @Id
     @Column(name = "favourite_id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -17,28 +19,5 @@ public class Favourite {
     @JoinColumn(name = "object_id", nullable = false)
     private BusinessObject object;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public BusinessObject getObject() {
-        return object;
-    }
-
-    public void setObject(BusinessObject object) {
-        this.object = object;
-    }
 
 }
