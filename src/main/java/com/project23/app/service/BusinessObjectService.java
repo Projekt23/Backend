@@ -26,4 +26,8 @@ public class BusinessObjectService {
         businessObjectRepository.save(bo);
     }
 
+    public BusinessObject getBusinessObject(long id){
+        return businessObjectRepository.getById(id);
+    }
+
 }
