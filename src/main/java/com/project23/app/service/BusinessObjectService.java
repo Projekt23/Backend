@@ -22,9 +22,23 @@ public class BusinessObjectService {
         return (List<BusinessObject>) businessObjectRepository.findAll();
     }
 
-    public void updateBusinessObject(BusinessObject bo) {
-        businessObjectRepository.save(bo);
-    }
+    // TODO
+//    public void updateBusinessObject(BusinessObject bo) {
+//        BusinessObject oldbo = businessObjectRepository.getById(bo.getId());
+//        BusinessObject newbo = new BusinessObject();
+//        if(!bo.getName().equals(oldbo.getName()) && !bo.getName().equals(null)) {
+//            newbo.setName(bo.getName());
+//        } else newbo.setName(oldbo.getName());
+//        if(!bo.getDescription().equalsIgnoreCase(oldbo.getDescription().toLowerCase()) && !bo.getDescription().equals(null)) {
+//            newbo.setDescription(bo.getDescription());
+//        } else newbo.setDescription(oldbo.getDescription());
+//        if(!bo.getSourceSystem().equals(oldbo.getSourceSystem()) && !bo.getSourceSystem().equals(null)) {
+//            newbo.setSourceSystem(bo.getSourceSystem());
+//        } else newbo.setSourceSystem(oldbo.getSourceSystem());
+//        // synonyms vergleichen
+//
+//        businessObjectRepository.save(newbo);
+//    }
 
     public BusinessObject getBusinessObject(long id){
         return businessObjectRepository.getById(id);
