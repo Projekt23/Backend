@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Data
@@ -31,5 +32,9 @@ public class BusinessObject {
     private SourceSystem sourceSystem;
 
     //ToDO: Synonym / Homonym Objects
+    @ManyToMany
+    @JoinTable(name="bo_2_bo", joinColumns = @JoinColumn(name="object_id_1", referencedColumnName = "object_id"),
+            inverseJoinColumns = @JoinColumn(name="object_id_2", referencedColumnName = "object_id"))
+    private List<BusinessObject> synonyms;
 
 }
