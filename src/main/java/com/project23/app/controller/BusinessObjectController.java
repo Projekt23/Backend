@@ -37,13 +37,13 @@ public class BusinessObjectController {
     }
 
     @PostMapping(path = "/new")
-    public void addBusinessObject(DTOBusinessObject dtobo){
+    public void addBusinessObject(@RequestBody DTOBusinessObject dtobo){
         businessObjectService.addBusinessObject(m.dtoBoToBo(dtobo));
     }
 
     @GetMapping(path ="/{id}")
-    public ResponseEntity<BusinessObject> getBusinessObject(@PathVariable Long id){
-        return ResponseEntity.ok().body(businessObjectService.getBusinessObject(id));
+    public ResponseEntity<DTOBusinessObject> getBusinessObject(@PathVariable Long id){
+        return ResponseEntity.ok().body(m.boToDtoBo(businessObjectService.getBusinessObject(id)));
     }
 
 }

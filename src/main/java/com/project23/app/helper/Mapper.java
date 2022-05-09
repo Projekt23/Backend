@@ -40,12 +40,12 @@ public class Mapper {
     }
 
     public BusinessObject dtoBoToBo(DTOBusinessObject dtoBo){
-        return new BusinessObject(
-                dtoBo.getId(),
-                dtoBo.getName(),
-                dtoBo.getDescription(),
-                sourceSystemService.getSourceSystem(dtoBo.getSourceSystemId())
-        );
+        BusinessObject bo = new BusinessObject();
+        bo.setId(dtoBo.getId());
+        bo.setName(dtoBo.getName());
+        bo.setDescription(dtoBo.getDescription());
+        bo.setSourceSystem(sourceSystemService.getSourceSystem(dtoBo.getSourceSystemId()));
+        return bo;
     }
 
     public DTOBusinessObject boToDtoBo(BusinessObject bo) {

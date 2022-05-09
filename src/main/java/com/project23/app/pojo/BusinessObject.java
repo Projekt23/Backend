@@ -27,7 +27,9 @@ public class BusinessObject {
     private String description;
 
     @JoinColumn(name = "source_id", nullable = false)
-    @OneToOne
+    @ManyToOne
     private SourceSystem sourceSystem;
+
+    //ToDO: Synonym / Homonym Objects
 
 }
