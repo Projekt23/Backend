@@ -1,13 +1,17 @@
 package com.project23.app.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "\"business_object\"", schema = "public")
 public class BusinessObject {
@@ -22,7 +26,8 @@ public class BusinessObject {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "source_id", nullable = false)
-    private Integer sourceId;
+    @JoinColumn(name = "source_id", nullable = false)
+    @OneToOne
+    private SourceSystem sourceSystem;
 
 }
