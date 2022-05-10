@@ -49,10 +49,15 @@ public class BusinessObjectController {
         return ResponseEntity.ok().body(m.boToDtoBo(businessObjectService.getBusinessObject(id)));
     }
 
-    @PutMapping("/update")
+    @PutMapping(path = "/update")
     public void updateBusinessObject(@RequestBody DTOBusinessObject dtoBo) {
         BusinessObject bo = m.dtoBoToBo(dtoBo);
         businessObjectService.updateBusinessObject(bo);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public void deleteBusinessObject(@PathVariable Long id) {
+        businessObjectService.deleteBusinessObject(id);
     }
 
 }
