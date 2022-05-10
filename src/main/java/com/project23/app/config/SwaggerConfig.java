@@ -50,4 +50,15 @@ public class SwaggerConfig {
                 .pathsToMatch("/api/label/*")
                 .build();
     }
+    /**
+     * Label Api Dokumentations- und Test-Seite
+     * @return OpenApi Favourite
+     */
+    @Bean
+    public GroupedOpenApi favouriteApi() {
+        return GroupedOpenApi.builder()
+                .group("favourite-api")
+                .pathsToMatch("/api/favourite/*")
+                .build();
+    }
 }

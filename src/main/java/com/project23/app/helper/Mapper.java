@@ -1,15 +1,11 @@
 package com.project23.app.helper;
 
-import com.project23.app.dto.DTOBusinessObject;
-import com.project23.app.dto.DTOLabel;
-import com.project23.app.dto.DTOSynonym;
-import com.project23.app.dto.DTOUser;
+import com.project23.app.dto.*;
 import com.project23.app.pojo.BusinessObject;
+import com.project23.app.pojo.Favourite;
 import com.project23.app.pojo.Label;
 import com.project23.app.pojo.User;
-import com.project23.app.service.BusinessObjectService;
-import com.project23.app.service.LabelService;
-import com.project23.app.service.SourceSystemService;
+import com.project23.app.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,7 +24,7 @@ public class Mapper {
     private final BusinessObjectService boService;
 
     @Autowired
-    private final LabelService labelService;
+    private final UserService userService;
 
     public DTOUser userToDtoUser(User user) {
         return new DTOUser(
@@ -124,6 +120,21 @@ public class Mapper {
         return new Label(dl.getId(), dl.getName());
     }
 
+    public DTOFavourite favToDtoFav(Favourite f) {
+        return new DTOFavourite(
+                f.getId(),
+                f.getUser().getId(),
+                f.getBusinessObject().getId()
+        );
+    }
+
+    public Favourite dtoFavtoFav(DTOFavourite df) {
+        return new Favourite(
+                df.getId(),
+                userService.getUser(df.getUserId()),
+                boService.getBusinessObject(df.getBusinessObjectId())
+        );
+    }
 
 
 }

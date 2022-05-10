@@ -129,8 +129,6 @@ CREATE TABLE public.favourite (
                                   CONSTRAINT favourite_user_user_id_fk FOREIGN KEY (user_id) REFERENCES public."user"(user_id)
 );
 CREATE UNIQUE INDEX favourite_favourite_id_uindex ON public.favourite USING btree (favourite_id);
-CREATE UNIQUE INDEX favourite_object_id_uindex ON public.favourite USING btree (object_id);
-CREATE UNIQUE INDEX favourite_user_id_uindex ON public.favourite USING btree (user_id);
 
 
 -- public.bo_2_bo definition
