@@ -1,6 +1,7 @@
 package com.project23.app.service;
 
 import com.project23.app.pojo.BusinessObject;
+import com.project23.app.pojo.Label;
 import com.project23.app.pojo.User;
 import com.project23.app.repository.BusinessObjectRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +15,29 @@ public class BusinessObjectService {
 
     private final BusinessObjectRepository businessObjectRepository;
 
-    public void addBusinessObject(BusinessObject bo){
-        businessObjectRepository.save(bo);
+    public String addBusinessObject(BusinessObject bo){
+        if(businessObjectRepository.existsByName(bo.getName())){
+            return "Object already exists! Please chance existing Object.";
+        } else {
+            businessObjectRepository.save(bo);
+            return "Added Object";
+        }
+
+//        List<BusinessObject> boList = getAllBusinessObjects();
+//        if(!boList.isEmpty()) {
+//            for (BusinessObject bObject : boList) {
+//                if (!bObject.getName().equals(bo.getName())) {
+//                    businessObjectRepository.save(bo);
+//                    return "ok";
+//                } else {
+//                    return "Object already exists! Please chance existing Object.";
+//                }
+//            }
+//        } else {
+//            businessObjectRepository.save(bo);
+//            return "ok";
+//        }
+//        return "failed!";
     }
 
     public List<BusinessObject> getAllBusinessObjects(){
@@ -33,6 +55,7 @@ public class BusinessObjectService {
         boToUpdate.setDescription((bo.getDescription()));
         boToUpdate.setSourceSystem(bo.getSourceSystem());
         boToUpdate.setSynonyms(bo.getSynonyms());
+        boToUpdate.setLabels(bo.getLabels());
         businessObjectRepository.saveAndFlush(boToUpdate);
     }
 

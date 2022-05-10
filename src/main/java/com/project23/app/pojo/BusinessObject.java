@@ -37,4 +37,9 @@ public class BusinessObject {
             inverseJoinColumns = @JoinColumn(name="object_id_2", referencedColumnName = "object_id"))
     private List<BusinessObject> synonyms;
 
+    @ManyToMany
+    @JoinTable(name="bo_2_label", joinColumns = @JoinColumn(name="object_id", referencedColumnName = "object_id"),
+            inverseJoinColumns = @JoinColumn(name="label_id", referencedColumnName = "label_id"))
+    private List<Label> labels;
+
 }
