@@ -17,12 +17,6 @@ public class LabelService {
         return labelRepository.findAll();
     }
 
-    public void checkAddLabels(List<Label> labelList) {
-        for(Label l : labelList) {
-            addLabelIfNotExists(l.getName());
-        }
-    }
-
     public void addLabelIfNotExists(String l) {
         if(!checkLabelExists(l)) {
             labelRepository.save(new Label(l));

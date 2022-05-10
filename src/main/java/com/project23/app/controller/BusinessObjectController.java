@@ -41,7 +41,6 @@ public class BusinessObjectController {
     @PostMapping(path = "/new")
     public void addBusinessObject(@RequestBody DTOBusinessObject dtoBo){
         BusinessObject bo = m.dtoBoToBo(dtoBo);
-        labelService.checkAddLabels(bo.getLabels());
         businessObjectService.addBusinessObject(bo);
     }
 
@@ -53,7 +52,6 @@ public class BusinessObjectController {
     @PutMapping("/update")
     public void updateBusinessObject(@RequestBody DTOBusinessObject dtoBo) {
         BusinessObject bo = m.dtoBoToBo(dtoBo);
-        labelService.checkAddLabels(bo.getLabels());
         businessObjectService.updateBusinessObject(bo);
     }
 
