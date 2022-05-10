@@ -1,15 +1,11 @@
 package com.project23.app.helper;
 
-import com.project23.app.dto.DTOBusinessObject;
-import com.project23.app.dto.DTOLabel;
-import com.project23.app.dto.DTOSynonym;
-import com.project23.app.dto.DTOUser;
+import com.project23.app.dto.*;
 import com.project23.app.pojo.BusinessObject;
+import com.project23.app.pojo.Favourite;
 import com.project23.app.pojo.Label;
 import com.project23.app.pojo.User;
-import com.project23.app.service.BusinessObjectService;
-import com.project23.app.service.LabelService;
-import com.project23.app.service.SourceSystemService;
+import com.project23.app.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,7 +24,7 @@ public class Mapper {
     private final BusinessObjectService boService;
 
     @Autowired
-    private final LabelService labelService;
+    private final UserService userService;
 
     public DTOUser userToDtoUser(User user) {
         return new DTOUser(
@@ -59,7 +55,7 @@ public class Mapper {
                 dtoBo.getDescription(),
                 sourceSystemService.getSourceSystem(dtoBo.getSourceSystemId()),
                 dtoSynonymToBoList(dtoBo.getSynonyms()),
-                dtoLabelToLabel(dtoBo.getLabels())
+                dtoLabelToLabelList(dtoBo.getLabels())
         );
     }
 
@@ -70,7 +66,7 @@ public class Mapper {
                 bo.getDescription(),
                 bo.getSourceSystem().getId(),
                 boToDtoSynonymList(bo.getSynonyms()),
-                labelToDtoLabel(bo.getLabels())
+                labelToDtoLabelList(bo.getLabels())
         );
     }
 
@@ -96,33 +92,49 @@ public class Mapper {
         return boList;
     }
 
-    public List<DTOLabel> labelToDtoLabel(List<Label> labels) {
+    public List<DTOLabel> labelToDtoLabelList(List<Label> labels) {
         List<DTOLabel> dtoLabels = new ArrayList<>();
         for(Label l : labels) {
-            dtoLabels.add(new DTOLabel(
-                    l.getId(),
-                    l.getName()
-            ));
+            dtoLabels.add(labelToDtoLabel(l));
         }
         return dtoLabels;
     }
 
-    public List<Label> dtoLabelToLabel(List<DTOLabel> dtoLabels) {
-        List<Label> labelIdName = new ArrayList<>();
+    public List<Label> dtoLabelToLabelList(List<DTOLabel> dtoLabels) {
         List<Label> labels = new ArrayList<>();
         if(!dtoLabels.isEmpty()) {
             for(DTOLabel dl : dtoLabels) {
-                labelIdName.add(new Label(dl.getId(), dl.getName()));
-            }
-        }
-        if(!labelIdName.isEmpty()) {
-            for(Label l : labelIdName) {
-                labels.add(new Label(l.getId(), l.getName()));
+                labels.add(dtoLabelToLabel(dl));
             }
         }
         return labels;
     }
 
+    public DTOLabel labelToDtoLabel(Label l) {
+        return new DTOLabel(
+                    l.getId(),
+                    l.getName());
+    }
+
+    public Label dtoLabelToLabel(DTOLabel dl) {
+        return new Label(dl.getId(), dl.getName());
+    }
+
+    public DTOFavourite favToDtoFav(Favourite f) {
+        return new DTOFavourite(
+                f.getId(),
+                f.getUser().getId(),
+                f.getBusinessObject().getId()
+        );
+    }
+
+    public Favourite dtoFavtoFav(DTOFavourite df) {
+        return new Favourite(
+                df.getId(),
+                userService.getUser(df.getUserId()),
+                boService.getBusinessObject(df.getBusinessObjectId())
+        );
+    }
 
 
 }

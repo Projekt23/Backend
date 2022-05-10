@@ -14,10 +14,14 @@ import java.util.List;
 @Table(name = "\"label\"", schema = "public")
 public class Label {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "label_id", nullable = false)
     private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
+    public Label(String name) {
+        this.name = name;
+    }
 }
