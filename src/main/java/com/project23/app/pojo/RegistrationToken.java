@@ -5,12 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @ToString
-public class RegistrationToken {
+public class RegistrationToken implements Serializable {
     private String email;
     private String exp;
 }

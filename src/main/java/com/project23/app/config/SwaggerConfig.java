@@ -28,6 +28,13 @@ public class SwaggerConfig {
                 .pathsToMatch("/api/user/*")
                 .build();
     }
+    @Bean
+    public GroupedOpenApi AuthApi() {
+        return GroupedOpenApi.builder()
+                .group("auth-api")
+                .pathsToMatch("/api/auth/*")
+                .build();
+    }
     /**
      * BusinessObject Api Dokumentations- und Test-Seite
      * @return OpenApi BusinessObject

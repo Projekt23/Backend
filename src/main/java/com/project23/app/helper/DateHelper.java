@@ -13,11 +13,11 @@ import java.util.logging.SimpleFormatter;
 public class DateHelper {
   private final SimpleDateFormat sdf = new SimpleDateFormat ("yyyy-MM-dd'T'HH:mm:ss");
 
-  public String createExpriationDate(int hours){
+  public Date createExpriationDate(int hours){
       Calendar calendar = Calendar.getInstance();
       calendar.setTime(new Date());
       calendar.add(Calendar.HOUR_OF_DAY, hours);
-      return sdf.format(calendar.getTime());
+      return calendar.getTime();
   }
   public boolean validateDate(String date) throws ParseException {
       Date d = sdf.parse(date);
