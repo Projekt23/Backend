@@ -1,11 +1,14 @@
 package com.project23.app.helper;
 
 import com.project23.app.dto.DTOBusinessObject;
+import com.project23.app.dto.DTOLabel;
 import com.project23.app.dto.DTOSynonym;
 import com.project23.app.dto.DTOUser;
 import com.project23.app.pojo.BusinessObject;
+import com.project23.app.pojo.Label;
 import com.project23.app.pojo.User;
 import com.project23.app.service.BusinessObjectService;
+import com.project23.app.service.LabelService;
 import com.project23.app.service.SourceSystemService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,9 @@ public class Mapper {
 
     @Autowired
     private final BusinessObjectService boService;
+
+    @Autowired
+    private final LabelService labelService;
 
     public DTOUser userToDtoUser(User user) {
         return new DTOUser(
@@ -52,7 +58,9 @@ public class Mapper {
                 dtoBo.getName(),
                 dtoBo.getDescription(),
                 sourceSystemService.getSourceSystem(dtoBo.getSourceSystemId()),
-                dtoSynonymToBoList(dtoBo.getSynonyms()));
+                dtoSynonymToBoList(dtoBo.getSynonyms()),
+                dtoLabelToLabel(dtoBo.getLabels())
+        );
     }
 
     public DTOBusinessObject boToDtoBo(BusinessObject bo) {
@@ -61,13 +69,14 @@ public class Mapper {
                 bo.getName(),
                 bo.getDescription(),
                 bo.getSourceSystem().getId(),
-                boToDtoSynonymList(bo.getSynonyms())
+                boToDtoSynonymList(bo.getSynonyms()),
+                labelToDtoLabel(bo.getLabels())
         );
     }
 
-    public List<DTOSynonym> boToDtoSynonymList(List<BusinessObject> bolist) {
+    public List<DTOSynonym> boToDtoSynonymList(List<BusinessObject> boList) {
         ArrayList<DTOSynonym> synonyms = new ArrayList<>();
-        for(BusinessObject bo : bolist) {
+        for(BusinessObject bo : boList) {
             synonyms.add(new DTOSynonym(
                     bo.getId(),
                     bo.getName(),
@@ -78,14 +87,42 @@ public class Mapper {
     }
 
     public List<BusinessObject> dtoSynonymToBoList(List<DTOSynonym> dtoSynonyms) {
-        ArrayList<BusinessObject> bolist = new ArrayList<>();
+        List<BusinessObject> boList = new ArrayList<>();
         if (!dtoSynonyms.isEmpty()) {
             for(DTOSynonym dtoSynonym : dtoSynonyms) {
-                bolist.add(boService.getBusinessObject(dtoSynonym.getId()));
+                boList.add(boService.getBusinessObject(dtoSynonym.getId()));
             }
         }
-        return bolist;
+        return boList;
     }
+
+    public List<DTOLabel> labelToDtoLabel(List<Label> labels) {
+        List<DTOLabel> dtoLabels = new ArrayList<>();
+        for(Label l : labels) {
+            dtoLabels.add(new DTOLabel(
+                    l.getId(),
+                    l.getName()
+            ));
+        }
+        return dtoLabels;
+    }
+
+    public List<Label> dtoLabelToLabel(List<DTOLabel> dtoLabels) {
+        List<Label> labelIdName = new ArrayList<>();
+        List<Label> labels = new ArrayList<>();
+        if(!dtoLabels.isEmpty()) {
+            for(DTOLabel dl : dtoLabels) {
+                labelIdName.add(new Label(dl.getId(), dl.getName()));
+            }
+        }
+        if(!labelIdName.isEmpty()) {
+            for(Label l : labelIdName) {
+                labels.add(new Label(l.getId(), l.getName()));
+            }
+        }
+        return labels;
+    }
+
 
 
 }

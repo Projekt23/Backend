@@ -5,6 +5,7 @@ import com.project23.app.helper.Mapper;
 import com.project23.app.pojo.BusinessObject;
 import com.project23.app.pojo.User;
 import com.project23.app.service.BusinessObjectService;
+import com.project23.app.service.LabelService;
 import com.project23.app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -25,20 +26,23 @@ public class BusinessObjectController {
 
     private final Mapper m;
     private final BusinessObjectService businessObjectService;
+    private final LabelService labelService;
 
 
     @GetMapping(path = "/all")
     public List<DTOBusinessObject> getAllBusinessObjects(){
-        List<DTOBusinessObject> allbo = new ArrayList<>();
+        List<DTOBusinessObject> allBo = new ArrayList<>();
         for(BusinessObject bo : businessObjectService.getAllBusinessObjects()) {
-            allbo.add(m.boToDtoBo(bo));
+            allBo.add(m.boToDtoBo(bo));
         }
-        return allbo;
+        return allBo;
     }
 
     @PostMapping(path = "/new")
-    public void addBusinessObject(@RequestBody DTOBusinessObject dtobo){
-        businessObjectService.addBusinessObject(m.dtoBoToBo(dtobo));
+    public void addBusinessObject(@RequestBody DTOBusinessObject dtoBo){
+        BusinessObject bo = m.dtoBoToBo(dtoBo);
+        labelService.checkAddLabels(bo.getLabels());
+        businessObjectService.addBusinessObject(bo);
     }
 
     @GetMapping(path ="/{id}")
@@ -47,8 +51,8 @@ public class BusinessObjectController {
     }
 
     @PutMapping("/update")
-    public void updateBusinessObject(@RequestBody DTOBusinessObject dtobo) {
-        BusinessObject bo = m.dtoBoToBo(dtobo);
+    public void updateBusinessObject(@RequestBody DTOBusinessObject dtoBo) {
+        BusinessObject bo = m.dtoBoToBo(dtoBo);
         businessObjectService.updateBusinessObject(bo);
     }
 
