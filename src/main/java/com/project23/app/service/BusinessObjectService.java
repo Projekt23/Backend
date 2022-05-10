@@ -22,7 +22,21 @@ public class BusinessObjectService {
         return (List<BusinessObject>) businessObjectRepository.findAll();
     }
 
-    // TODO
+    public BusinessObject getBusinessObject(long id){
+        return businessObjectRepository.getById(id);
+    }
+
+    // Update whole Object
+    public void updateBusinessObject(BusinessObject bo) {
+        BusinessObject boToUpdate = businessObjectRepository.getById(bo.getId());
+        boToUpdate.setName(bo.getName());
+        boToUpdate.setDescription((bo.getDescription()));
+        boToUpdate.setSourceSystem(bo.getSourceSystem());
+        boToUpdate.setSynonyms(bo.getSynonyms());
+        businessObjectRepository.saveAndFlush(boToUpdate);
+    }
+
+//    Update not whole Objects?
 //    public void updateBusinessObject(BusinessObject bo) {
 //        BusinessObject oldbo = businessObjectRepository.getById(bo.getId());
 //        BusinessObject newbo = new BusinessObject();
@@ -40,8 +54,6 @@ public class BusinessObjectService {
 //        businessObjectRepository.save(newbo);
 //    }
 
-    public BusinessObject getBusinessObject(long id){
-        return businessObjectRepository.getById(id);
-    }
+
 
 }

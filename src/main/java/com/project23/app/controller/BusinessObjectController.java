@@ -46,10 +46,10 @@ public class BusinessObjectController {
         return ResponseEntity.ok().body(m.boToDtoBo(businessObjectService.getBusinessObject(id)));
     }
 
-//    @PutMapping("/update")
-//    public void updateBusinessObject(DTOBusinessObject dtobo) {
-//        BusinessObject bo = m.dtoBoToBo(dtobo);
-//        businessObjectService.updateBusinessObject(bo);
-//    }
+    @PutMapping("/update")
+    public void updateBusinessObject(@RequestBody DTOBusinessObject dtobo) {
+        BusinessObject bo = m.dtoBoToBo(dtobo);
+        businessObjectService.updateBusinessObject(bo);
+    }
 
 }
