@@ -39,4 +39,15 @@ public class SwaggerConfig {
                 .pathsToMatch("/api/businessobject/*")
                 .build();
     }
+    /**
+     * Label Api Dokumentations- und Test-Seite
+     * @return OpenApi Label
+     */
+    @Bean
+    public GroupedOpenApi labelApi() {
+        return GroupedOpenApi.builder()
+                .group("label-api")
+                .pathsToMatch("/api/label/*")
+                .build();
+    }
 }

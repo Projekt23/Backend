@@ -53,6 +53,7 @@ public class BusinessObjectController {
     @PutMapping("/update")
     public void updateBusinessObject(@RequestBody DTOBusinessObject dtoBo) {
         BusinessObject bo = m.dtoBoToBo(dtoBo);
+        labelService.checkAddLabels(bo.getLabels());
         businessObjectService.updateBusinessObject(bo);
     }
 
