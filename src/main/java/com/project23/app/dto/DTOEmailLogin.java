@@ -3,19 +3,9 @@ package com.project23.app.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-
 @Data
 @AllArgsConstructor
-public class DTOUser {
-
-    private Long id;
-
-    private String name;
-
-    private String username;
-
+public class DTOEmailLogin {
     private String eMail;
-
     private String password;
-
 }

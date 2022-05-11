@@ -1,9 +1,7 @@
 package com.project23.app.service;
 
-import com.project23.app.pojo.Label;
-import com.project23.app.pojo.SourceSystem;
+import com.project23.app.Entity.Label;
 import com.project23.app.repository.LabelRepository;
-import com.project23.app.repository.SourceSystemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

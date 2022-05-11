@@ -1,12 +1,9 @@
 package com.project23.app.helper;
 
-import com.project23.app.dto.DTOBusinessObject;
-import com.project23.app.dto.DTOLabel;
-import com.project23.app.dto.DTOSynonym;
-import com.project23.app.dto.DTOUser;
-import com.project23.app.pojo.BusinessObject;
-import com.project23.app.pojo.Label;
-import com.project23.app.pojo.User;
+import com.project23.app.dto.*;
+import com.project23.app.Entity.BusinessObject;
+import com.project23.app.Entity.Label;
+import com.project23.app.Entity.User;
 import com.project23.app.service.BusinessObjectService;
 import com.project23.app.service.LabelService;
 import com.project23.app.service.SourceSystemService;
@@ -33,24 +30,32 @@ public class Mapper {
     public DTOUser userToDtoUser(User user) {
         return new DTOUser(
                 user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
+                user.getName(),
                 user.getUsername(),
-                user.getEMail(),
+                user.getEmail(),
                 user.getPassword()
+        );
+    }
+
+    public DTOGetUser userToDtoGetUser(User user){
+        return new DTOGetUser(
+                user.getId(),
+                user.getName(),
+                user.getUsername(),
+                user.getEmail()
         );
     }
 
     public User dtoUserToUser(DTOUser dtoUser) {
         return new User(
                 dtoUser.getId(),
-                dtoUser.getFirstName(),
-                dtoUser.getLastName(),
+                dtoUser.getName(),
                 dtoUser.getUsername(),
                 dtoUser.getEMail(),
                 dtoUser.getPassword()
         );
     }
+
 
     public BusinessObject dtoBoToBo(DTOBusinessObject dtoBo){
         return new BusinessObject(

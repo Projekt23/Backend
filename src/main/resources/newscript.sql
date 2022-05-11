@@ -15,10 +15,9 @@ CREATE UNIQUE INDEX source_system_name_uindex ON public.source_system USING btre
 CREATE UNIQUE INDEX source_system_source_id_uindex ON public.source_system USING btree (source_id);
 
 CREATE TABLE public."user" (
-	user_id bigserial NOT NULL,	
-	first_name varchar NULL,
-	last_name varchar NULL,
-	username varchar NOT NULL,
+	user_id bigserial NOT NULL,
+	"name" varchar NULL,
+    username varchar NULL,
 	email varchar NOT NULL,
 	"password" varchar NOT NULL,
 	CONSTRAINT user_pk PRIMARY KEY (user_id)

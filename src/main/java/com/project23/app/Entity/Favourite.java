@@ -1,4 +1,4 @@
-package com.project23.app.pojo;
+package com.project23.app.Entity;
 
 import lombok.Data;
 

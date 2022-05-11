@@ -6,16 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class DTOUser {
-
-    private Long id;
-
-    private String name;
-
+public class DTOUserNameLogin {
     private String username;
-
-    private String eMail;
-
     private String password;
-
 }
