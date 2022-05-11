@@ -14,6 +14,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -24,27 +25,28 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Log4j2
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
+    public static final int DEFAULT_BUFFER_SIZE = 8192;
     private final JavaMailSender javaMailSender;
     private final DateHelper dateHelper;
 
     private final UserRepository userRepository;
 
-
-    @Value("classpath:mail.html")
-    private Resource resource;
-
     private String createRegistrationMail(String url){
-        File in = null;
+        File in = new File("email.html");
         Document doc = null;
         Element a1 = null;
         try {
-            in = resource.getFile();
-            doc = Jsoup.parse(in, null);
+            InputStream is = new ClassPathResource("mail.html").getInputStream();
+            copyInputStreamToFile(is, in);
+            doc = Jsoup.parse(in, "UTF-8");
             Elements elements = doc.select("a");
             a1 = elements.get(0);
             a1.attr("href",url);
@@ -52,6 +54,20 @@ public class AuthenticationService {
             throw new RuntimeException(e);
         }
         return doc.toString();
+    }
+
+    private void copyInputStreamToFile(InputStream inputStream, File file)
+            throws IOException {
+
+        // append = false
+        try (FileOutputStream outputStream = new FileOutputStream(file, false)) {
+            int read;
+            byte[] bytes = new byte[DEFAULT_BUFFER_SIZE];
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+        }
+
     }
 
     public void sendRegistrationMail(String to, String token) {
