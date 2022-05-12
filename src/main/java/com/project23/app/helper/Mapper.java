@@ -40,9 +40,9 @@ public class Mapper {
     public DTOGetUser userToDtoGetUser(User user){
         return new DTOGetUser(
                 user.getId(),
-                user.getName(),
                 user.getUsername(),
-                user.getEmail()
+                user.getEmail(),
+                user.getName()
         );
     }
 

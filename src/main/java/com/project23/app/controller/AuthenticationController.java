@@ -62,7 +62,7 @@ public class AuthenticationController {
 
     @PostMapping(path = "/login/mail")
     public String login(@RequestBody DTOEmailLogin user){
-        return authService.authenticateWithEmail(user.getEMail(), user.getPassword());
+        return authService.authenticateWithEmail(user.getEmail(), user.getPassword());
     }
 
 

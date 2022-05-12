@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class DTOEmailLogin {
-    private String eMail;
+    private String email;
     private String password;
 }

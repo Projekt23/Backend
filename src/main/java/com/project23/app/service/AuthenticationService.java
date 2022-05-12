@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.regex.Pattern;
 
 @Log4j2
 @Service
@@ -69,9 +70,22 @@ public class AuthenticationService {
         }
 
     }
+    public static boolean eMailIsValid(String email)
+    {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
 
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
     public void sendRegistrationMail(String to, String token) {
-
+        if(!eMailIsValid(to)){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"E-Mail is not valid");
+        }
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
         String htmlMsg = createRegistrationMail("http://localhost:8080/api/auth/validate?token="+token);

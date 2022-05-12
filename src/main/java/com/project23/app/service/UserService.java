@@ -42,14 +42,21 @@ public class UserService {
     public void updateUser(User u) {
         User user = userRepository.findById(u.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found"));
-        user.setEmail(u.getEmail());
+
+        if(!u.getEmail().equals(user.getEmail())){
+            if(userRepository.findByEmail(u.getEmail()).isEmpty()) {
+                user.setEmail(u.getEmail());
+            }else throw new ResponseStatusException(HttpStatus.CONFLICT, "E-Mail already used" );
+        }
+
+        if(!u.getUsername().equals(user.getUsername())) {
+            if(userRepository.findByUsername(u.getUsername()).isEmpty()) {
+                user.setUsername(u.getUsername());
+            }else throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already used" );
+        }
         user.setName(u.getName());
         user.setPassword(u.getPassword());
-        user.setUsername(u.getUsername());
-        if(!userExists(user)){
-            userRepository.save(user);
-        }else throw new ResponseStatusException(HttpStatus.CONFLICT, "Entity already exists" );
+        userRepository.save(user);
     }
-
 
 }
