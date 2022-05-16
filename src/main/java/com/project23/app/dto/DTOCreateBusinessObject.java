@@ -1,0 +1,26 @@
+package com.project23.app.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class DTOCreateBusinessObject {
+
+    private String name;
+
+    private String description;
+
+    private Long sourceSystemId;
+
+    private List<DTOSynonym> synonyms;
+
+    private List<DTOLabel> labels;
+
+}
+
+

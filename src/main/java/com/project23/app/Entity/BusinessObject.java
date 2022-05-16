@@ -41,4 +41,11 @@ public class BusinessObject {
             inverseJoinColumns = @JoinColumn(name="label_id", referencedColumnName = "label_id"))
     private List<Label> labels;
 
+    public BusinessObject(String name, String description, SourceSystem sourceSystem, List<BusinessObject> synonyms, List<Label> labels) {
+        this.name = name;
+        this.description = description;
+        this.sourceSystem = sourceSystem;
+        this.synonyms = synonyms;
+        this.labels = labels;
+    }
 }

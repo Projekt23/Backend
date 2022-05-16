@@ -70,6 +70,16 @@ public class Mapper {
         );
     }
 
+    public BusinessObject dtoCreateBoToBo(DTOCreateBusinessObject dtoCBo){
+        return new BusinessObject(
+                dtoCBo.getName(),
+                dtoCBo.getDescription(),
+                sourceSystemService.getSourceSystem(dtoCBo.getSourceSystemId()),
+                dtoSynonymToBoList(dtoCBo.getSynonyms()),
+                dtoLabelToLabelList(dtoCBo.getLabels())
+        );
+    }
+
     public DTOBusinessObject boToDtoBo(BusinessObject bo) {
         return new DTOBusinessObject(
                 bo.getId(),

@@ -1,6 +1,7 @@
 package com.project23.app.controller;
 
 import com.project23.app.dto.DTOBusinessObject;
+import com.project23.app.dto.DTOCreateBusinessObject;
 import com.project23.app.helper.Mapper;
 import com.project23.app.Entity.BusinessObject;
 import com.project23.app.service.BusinessObjectService;
@@ -35,9 +36,9 @@ public class BusinessObjectController {
         return allBo;
     }
 
-    @PostMapping(path = "/new")
-    public void addBusinessObject(@RequestBody DTOBusinessObject dtoBo){
-        BusinessObject bo = m.dtoBoToBo(dtoBo);
+    @PostMapping
+    public void addBusinessObject(@RequestBody DTOCreateBusinessObject dtoCBo){
+        BusinessObject bo = m.dtoCreateBoToBo(dtoCBo);
         businessObjectService.addBusinessObject(bo);
     }
 
@@ -46,9 +47,10 @@ public class BusinessObjectController {
         return ResponseEntity.ok().body(m.boToDtoBo(businessObjectService.getBusinessObject(id)));
     }
 
-    @PutMapping(path = "/update")
-    public void updateBusinessObject(@RequestBody DTOBusinessObject dtoBo) {
-        BusinessObject bo = m.dtoBoToBo(dtoBo);
+    @PutMapping(path = "/{id}")
+    public void updateBusinessObject(@RequestBody DTOCreateBusinessObject dtoCBo, @PathVariable Long id) {
+        BusinessObject bo = m.dtoCreateBoToBo(dtoCBo);
+        bo.setId(id);
         businessObjectService.updateBusinessObject(bo);
     }
 

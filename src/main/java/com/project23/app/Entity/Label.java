@@ -17,6 +17,7 @@ public class Label {
     @Column(name = "label_id", nullable = false)
     private Long id;
 
+
     @Column(name = "name", nullable = false)
     private String name;
 
