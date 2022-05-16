@@ -1,11 +1,9 @@
 package com.project23.app.controller;
 
+import com.project23.app.Entity.Label;
 import com.project23.app.dto.DTOLabel;
 import com.project23.app.dto.DTOUser;
 import com.project23.app.helper.Mapper;
-import com.project23.app.pojo.BusinessObject;
-import com.project23.app.pojo.Label;
-import com.project23.app.pojo.User;
 import com.project23.app.repository.LabelRepository;
 import com.project23.app.service.LabelService;
 import com.project23.app.service.UserService;
@@ -34,13 +32,14 @@ public class LabelController {
         return labelService.getAllLabels();
     }
 
-    @PostMapping(path = "/new")
-    public void addLabel(@RequestBody String l) {
-        labelService.addLabelIfNotExists(l);
+    @PostMapping
+    public void addLabel(@RequestParam String label) {
+        labelService.addLabelIfNotExists(label);
     }
 
-    @PutMapping(path = "/update")
-    public void updateLabel(@RequestBody DTOLabel l) {
+    @PutMapping(path = "/{id}")
+    public void updateLabel(@RequestBody String label, @RequestParam Long id) {
+        DTOLabel l = new DTOLabel(id, label);
         labelService.updateLabel(m.dtoLabelToLabel(l));
     }
 

@@ -1,10 +1,7 @@
 package com.project23.app.helper;
 
+import com.project23.app.Entity.Favourite;
 import com.project23.app.dto.*;
-import com.project23.app.pojo.BusinessObject;
-import com.project23.app.pojo.Favourite;
-import com.project23.app.pojo.Label;
-import com.project23.app.pojo.User;
 import com.project23.app.service.*;
 import com.project23.app.dto.*;
 import com.project23.app.Entity.BusinessObject;

@@ -1,10 +1,9 @@
 package com.project23.app.controller;
 
+import com.project23.app.Entity.Favourite;
 import com.project23.app.dto.DTOFavourite;
 import com.project23.app.dto.DTOUser;
 import com.project23.app.helper.Mapper;
-import com.project23.app.pojo.Favourite;
-import com.project23.app.pojo.User;
 import com.project23.app.service.FavouriteService;
 import com.project23.app.service.UserService;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.project23.app.repository;
 
-import com.project23.app.pojo.Label;
+import com.project23.app.Entity.Label;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
