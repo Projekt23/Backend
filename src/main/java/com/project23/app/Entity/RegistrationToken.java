@@ -1,16 +1,15 @@
-package com.project23.app.pojo;
+package com.project23.app.Entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
-import java.util.Date;
+import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
 @ToString
-public class RegistrationToken {
+public class RegistrationToken implements Serializable {
     private String email;
     private String exp;
 }

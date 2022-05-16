@@ -14,29 +14,7 @@ public class SwaggerConfig {
     public GroupedOpenApi Api() {
         return GroupedOpenApi.builder()
                 .group("api")
-                .pathsToMatch("/*")
-                .build();
-    }
-    /**
-     * User Api Dokumentations- und Test-Seite
-     * @return OpenApi Object
-     */
-    @Bean
-    public GroupedOpenApi userApi() {
-        return GroupedOpenApi.builder()
-                .group("user-api")
-                .pathsToMatch("/api/user/*")
-                .build();
-    }
-    /**
-     * BusinessObject Api Dokumentations- und Test-Seite
-     * @return OpenApi BusinessObject
-     */
-    @Bean
-    public GroupedOpenApi businessObjectApi() {
-        return GroupedOpenApi.builder()
-                .group("businessobject-api")
-                .pathsToMatch("/api/businessobject/*")
+                .pathsToMatch("/**")
                 .build();
     }
     /**

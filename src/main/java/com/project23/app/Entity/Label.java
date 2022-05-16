@@ -1,11 +1,10 @@
-package com.project23.app.pojo;
+package com.project23.app.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity

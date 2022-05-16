@@ -1,10 +1,9 @@
-package com.project23.app.pojo;
+package com.project23.app.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
