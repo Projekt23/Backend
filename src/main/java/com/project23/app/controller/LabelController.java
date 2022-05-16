@@ -32,13 +32,18 @@ public class LabelController {
         return labelService.getAllLabels();
     }
 
+    @GetMapping(path = "/{id}")
+    public DTOLabel getLabel(@PathVariable Long id) {
+        return m.labelToDtoLabel(labelService.getLabel(id));
+    }
+
     @PostMapping
     public void addLabel(@RequestParam String label) {
         labelService.addLabelIfNotExists(label);
     }
 
     @PutMapping(path = "/{id}")
-    public void updateLabel(@RequestBody String label, @RequestParam Long id) {
+    public void updateLabel(@RequestBody String label, @PathVariable Long id) {
         DTOLabel l = new DTOLabel(id, label);
         labelService.updateLabel(m.dtoLabelToLabel(l));
     }

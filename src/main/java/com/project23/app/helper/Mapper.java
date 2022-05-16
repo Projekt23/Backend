@@ -30,6 +30,9 @@ public class Mapper {
     @Autowired
     private final UserService userService;
 
+    @Autowired
+    private final LabelService labelService;
+
     public DTOUser userToDtoUser(User user) {
         return new DTOUser(
                 user.getId(),
@@ -59,23 +62,24 @@ public class Mapper {
         );
     }
 
-    public BusinessObject dtoBoToBo(DTOBusinessObject dtoBo){
-        return new BusinessObject(
-                dtoBo.getId(),
-                dtoBo.getName(),
-                dtoBo.getDescription(),
-                sourceSystemService.getSourceSystem(dtoBo.getSourceSystemId()),
-                dtoSynonymToBoList(dtoBo.getSynonyms()),
-                dtoLabelToLabelList(dtoBo.getLabels())
-        );
-    }
+    // Nicht mehr benötigt! Nach Test löschen
+//    public BusinessObject dtoBoToBo(DTOBusinessObject dtoBo){
+//        return new BusinessObject(
+//                dtoBo.getId(),
+//                dtoBo.getName(),
+//                dtoBo.getDescription(),
+//                sourceSystemService.getSourceSystem(dtoBo.getSourceSystemId()),
+//                dtoSynonymToBoList(dtoBo.getSynonyms()),
+//                dtoLabelToLabelList(dtoBo.getLabels())
+//        );
+//    }
 
     public BusinessObject dtoCreateBoToBo(DTOCreateBusinessObject dtoCBo){
         return new BusinessObject(
                 dtoCBo.getName(),
                 dtoCBo.getDescription(),
                 sourceSystemService.getSourceSystem(dtoCBo.getSourceSystemId()),
-                dtoSynonymToBoList(dtoCBo.getSynonyms()),
+                dtoSynonymToBoList(dtoCBo.getSynonymIds()),
                 dtoLabelToLabelList(dtoCBo.getLabels())
         );
     }
@@ -103,11 +107,11 @@ public class Mapper {
         return synonyms;
     }
 
-    public List<BusinessObject> dtoSynonymToBoList(List<DTOSynonym> dtoSynonyms) {
+    public List<BusinessObject> dtoSynonymToBoList(ArrayList<Long> synonymIds) {
         List<BusinessObject> boList = new ArrayList<>();
-        if (!dtoSynonyms.isEmpty()) {
-            for(DTOSynonym dtoSynonym : dtoSynonyms) {
-                boList.add(boService.getBusinessObject(dtoSynonym.getId()));
+        if (!synonymIds.isEmpty()) {
+            for(Long id : synonymIds) {
+                boList.add(boService.getBusinessObject(id));
             }
         }
         return boList;
@@ -121,11 +125,11 @@ public class Mapper {
         return dtoLabels;
     }
 
-    public List<Label> dtoLabelToLabelList(List<DTOLabel> dtoLabels) {
+    public List<Label> dtoLabelToLabelList(ArrayList<String> labelNames) {
         List<Label> labels = new ArrayList<>();
-        if(!dtoLabels.isEmpty()) {
-            for(DTOLabel dl : dtoLabels) {
-                labels.add(dtoLabelToLabel(dl));
+        if(!labelNames.isEmpty()) {
+            for(String label : labelNames) {
+                labels.add(labelStringToLabel(label));
             }
         }
         return labels;
@@ -135,6 +139,10 @@ public class Mapper {
         return new DTOLabel(
                     l.getId(),
                     l.getName());
+    }
+
+    public Label labelStringToLabel (String label) {
+       return labelService.addLabelIfNotExists(label);
     }
 
     public Label dtoLabelToLabel(DTOLabel dl) {

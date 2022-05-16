@@ -3,6 +3,7 @@ package com.project23.app.service;
 import com.project23.app.Entity.Label;
 import com.project23.app.repository.LabelRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,16 +12,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LabelService {
 
+
     private final LabelRepository labelRepository;
 
     public List<Label> getAllLabels() {
         return labelRepository.findAll();
     }
 
-    public void addLabelIfNotExists(String l) {
+    public Label addLabelIfNotExists(String l) {
         if(!checkLabelExists(l)) {
             labelRepository.save(new Label(l));
         }
+        return labelRepository.getLabelByName(l);
     }
 
     public boolean checkLabelExists(String l) {
@@ -41,4 +44,15 @@ public class LabelService {
     private void deleteLabelObjectConnection(long id) {
         labelRepository.deleteLabelConnection(id);
     }
+
+    public Label getLabel(Long id) {
+        return labelRepository.getById(id);
+    }
+
+    public Label getLabel(String label) {
+        return labelRepository.getLabelByName(label);
+    }
+
+
+
 }

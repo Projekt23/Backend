@@ -14,4 +14,6 @@ public interface LabelRepository extends JpaRepository<Label, Long> {
     @Modifying
     @Query(value = "DELETE FROM bo_2_label WHERE label_id = ?1", nativeQuery = true)
     public void deleteLabelConnection(Long labelId);
+
+    public Label getLabelByName(String l);
 }

@@ -1,5 +1,6 @@
 package com.project23.app.controller;
 
+import com.project23.app.Entity.Label;
 import com.project23.app.dto.DTOBusinessObject;
 import com.project23.app.dto.DTOCreateBusinessObject;
 import com.project23.app.helper.Mapper;
@@ -39,6 +40,11 @@ public class BusinessObjectController {
     @PostMapping
     public void addBusinessObject(@RequestBody DTOCreateBusinessObject dtoCBo){
         BusinessObject bo = m.dtoCreateBoToBo(dtoCBo);
+        List<Label> newLabels = new ArrayList();
+        for (Label l : bo.getLabels()) {
+            newLabels.add(labelService.addLabelIfNotExists(l.getName()));
+        }
+        bo.setLabels(newLabels);
         businessObjectService.addBusinessObject(bo);
     }
 
