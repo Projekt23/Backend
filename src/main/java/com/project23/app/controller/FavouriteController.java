@@ -8,6 +8,7 @@ import com.project23.app.service.FavouriteService;
 import com.project23.app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,11 +35,13 @@ public class FavouriteController {
     }
 
     @PostMapping(path = "/new")
+    @ResponseStatus(value = HttpStatus.CREATED, reason = "Created Favourite.")
     public void addFav(@RequestBody DTOFavourite dtoFav){
         favService.addFav(m.dtoFavtoFav(dtoFav));
     }
 
     @DeleteMapping(path = "/{id}")
+    @ResponseStatus(value = HttpStatus.OK, reason = "Deleted Favourite.")
     public void deleteFav(@PathVariable long id) {
         favService.deleteFav(id);
     }

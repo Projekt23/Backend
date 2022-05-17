@@ -3,18 +3,13 @@ package com.project23.app.service;
 import com.project23.app.Entity.BusinessObject;
 import com.project23.app.repository.BusinessObjectRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.persistence.EntityNotFoundException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,12 +24,6 @@ public class BusinessObjectService {
             businessObjectRepository.save(bo);
         }
     }
-
-//    public List<BusinessObject> getAllBusinessObjects(){
-//        List<BusinessObject> boList = businessObjectRepository.findAll();
-//        if(boList.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Business Objects found.");
-//        return boList;
-//    }
 
     public List<BusinessObject> getAllBusinessObjects(){
        try{

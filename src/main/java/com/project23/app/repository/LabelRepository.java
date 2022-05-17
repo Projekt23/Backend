@@ -10,6 +10,8 @@ public interface LabelRepository extends JpaRepository<Label, Long> {
 
     public boolean existsByName(String name);
 
+    public boolean existsById(Long id);
+
     @Transactional
     @Modifying
     @Query(value = "DELETE FROM bo_2_label WHERE label_id = ?1", nativeQuery = true)
