@@ -9,6 +9,7 @@ import com.project23.app.service.BusinessObjectService;
 import com.project23.app.service.LabelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,7 @@ public class BusinessObjectController {
     }
 
     @PostMapping
+    @ResponseStatus(value = HttpStatus.CREATED, reason = "Created Business Object.")
     public void addBusinessObject(@RequestBody DTOCreateBusinessObject dtoCBo){
         BusinessObject bo = m.dtoCreateBoToBo(dtoCBo);
         List<Label> newLabels = new ArrayList();
@@ -54,13 +56,14 @@ public class BusinessObjectController {
     }
 
     @PutMapping(path = "/{id}")
+    @ResponseStatus(value = HttpStatus.CREATED, reason = "Updated Business Object.")
     public void updateBusinessObject(@RequestBody DTOCreateBusinessObject dtoCBo, @PathVariable Long id) {
         BusinessObject bo = m.dtoCreateBoToBo(dtoCBo);
-        bo.setId(id);
-        businessObjectService.updateBusinessObject(bo);
+        businessObjectService.updateBusinessObject(bo, id);
     }
 
     @DeleteMapping(path = "/{id}")
+    @ResponseStatus(value = HttpStatus.OK, reason = "Deleted Business Object.")
     public void deleteBusinessObject(@PathVariable Long id) {
         businessObjectService.deleteBusinessObject(id);
     }
