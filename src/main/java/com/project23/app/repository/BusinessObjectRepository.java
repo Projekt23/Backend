@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BusinessObjectRepository extends JpaRepository<BusinessObject, Long> {
 
-    public boolean existsByName(String name);
+    public boolean existsByNameAndDescription(String name, String description);
     public boolean existsById(Long id);
 
 }

@@ -42,13 +42,13 @@ public class LabelController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED, reason = "Created Label.")
     public void addLabel(@RequestParam String label) {
-        labelService.addLabel(label);
+        labelService.addLabel(label.toUpperCase());
     }
 
     @PutMapping(path = "/{id}")
     @ResponseStatus(value = HttpStatus.CREATED, reason = "Updated Label.")
     public void updateLabel(@RequestBody String label, @PathVariable Long id) {
-        DTOLabel l = new DTOLabel(id, label);
+        DTOLabel l = new DTOLabel(id, label.toUpperCase());
         labelService.updateLabel(m.dtoLabelToLabel(l));
     }
 

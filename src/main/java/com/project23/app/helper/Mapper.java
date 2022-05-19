@@ -3,13 +3,11 @@ package com.project23.app.helper;
 import com.project23.app.Entity.Favourite;
 import com.project23.app.dto.*;
 import com.project23.app.service.*;
-import com.project23.app.dto.*;
 import com.project23.app.Entity.BusinessObject;
 import com.project23.app.Entity.Label;
 import com.project23.app.Entity.User;
 import com.project23.app.service.BusinessObjectService;
 import com.project23.app.service.LabelService;
-import com.project23.app.service.SourceSystemService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,9 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 @Component
 public class Mapper {
-
-    @Autowired
-    private final SourceSystemService sourceSystemService;
 
     @Autowired
     private final BusinessObjectService boService;
@@ -62,25 +57,14 @@ public class Mapper {
         );
     }
 
-    // Nicht mehr benötigt! Nach Test löschen
-//    public BusinessObject dtoBoToBo(DTOBusinessObject dtoBo){
-//        return new BusinessObject(
-//                dtoBo.getId(),
-//                dtoBo.getName(),
-//                dtoBo.getDescription(),
-//                sourceSystemService.getSourceSystem(dtoBo.getSourceSystemId()),
-//                dtoSynonymToBoList(dtoBo.getSynonyms()),
-//                dtoLabelToLabelList(dtoBo.getLabels())
-//        );
-//    }
 
     public BusinessObject dtoCreateBoToBo(DTOCreateBusinessObject dtoCBo){
         return new BusinessObject(
                 dtoCBo.getName(),
                 dtoCBo.getDescription(),
-                sourceSystemService.getSourceSystem(dtoCBo.getSourceSystemId()),
                 dtoSynonymToBoList(dtoCBo.getSynonymIds()),
-                dtoLabelToLabelList(dtoCBo.getLabels())
+                dtoLabelToLabelList(dtoCBo.getLabels()),
+                dtoContextToBoList(dtoCBo.getContextIds())
         );
     }
 
@@ -89,9 +73,9 @@ public class Mapper {
                 bo.getId(),
                 bo.getName(),
                 bo.getDescription(),
-                bo.getSourceSystem().getId(),
                 boToDtoSynonymList(bo.getSynonyms()),
-                labelToDtoLabelList(bo.getLabels())
+                labelToDtoLabelList(bo.getLabels()),
+                boToDtoContextList(bo.getContext())
         );
     }
 
@@ -111,6 +95,28 @@ public class Mapper {
         List<BusinessObject> boList = new ArrayList<>();
         if (!synonymIds.isEmpty()) {
             for(Long id : synonymIds) {
+                boList.add(boService.getBusinessObject(id));
+            }
+        }
+        return boList;
+    }
+
+    public List<DTOContext> boToDtoContextList(List<BusinessObject> boList) {
+        ArrayList<DTOContext> contextList = new ArrayList<>();
+        for(BusinessObject bo : boList) {
+            contextList.add(new DTOContext(
+                    bo.getId(),
+                    bo.getName(),
+                    bo.getDescription()
+            ));
+        }
+        return contextList;
+    }
+
+    public List<BusinessObject> dtoContextToBoList(ArrayList<Long> contextIds) {
+        List<BusinessObject> boList = new ArrayList<>();
+        if (!contextIds.isEmpty()) {
+            for(Long id : contextIds) {
                 boList.add(boService.getBusinessObject(id));
             }
         }

@@ -17,11 +17,11 @@ public class DTOBusinessObject {
 
     private String description;
 
-    private Long sourceSystemId;
-
     private List<DTOSynonym> synonyms;
 
     private List<DTOLabel> labels;
+
+    private List<DTOContext> contextList;
 
 }
 
