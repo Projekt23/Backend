@@ -70,4 +70,8 @@ public class BusinessObjectService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Business Object with ID " +id +" found.");
         }
     }
+
+    public BusinessObject getRandomBusinessObject() {
+        return businessObjectRepository.getById((long)businessObjectRepository.getRandomBusinessObjectId());
+    }
 }

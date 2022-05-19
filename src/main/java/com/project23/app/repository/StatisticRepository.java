@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface StatisticRepository extends JpaRepository<Statistic, Long> {
     public List<Statistic> getTop3AllByActionOrderByTimestampDesc(int action);
-    public List<Statistic> getTop5ByActionAndUserOrderByTimestampDesc(int action, long userId);
+    public List<Statistic> getTop5ByActionAndUser_IdOrderByTimestampDesc(int action, long userId);
     public void deleteStatisticByBusinessObject_Id(long boId);
 }

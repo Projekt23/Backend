@@ -1,11 +1,8 @@
 package com.project23.app.helper;
 
-import com.project23.app.Entity.Favourite;
+import com.project23.app.Entity.*;
 import com.project23.app.dto.*;
 import com.project23.app.service.*;
-import com.project23.app.Entity.BusinessObject;
-import com.project23.app.Entity.Label;
-import com.project23.app.Entity.User;
 import com.project23.app.service.BusinessObjectService;
 import com.project23.app.service.LabelService;
 import lombok.AllArgsConstructor;
@@ -171,5 +168,38 @@ public class Mapper {
         );
     }
 
+    public List<DTOChangeHistory> statisticsToDtoChangeHistory(List<Statistic> statistics) {
+        List<DTOChangeHistory> changeHistory = new ArrayList<>();
+        for(Statistic s : statistics) {
+            changeHistory.add(new DTOChangeHistory(
+                    s.getBusinessObject().getId(),
+                    s.getBusinessObject().getName(),
+                    s.getUser().getName(),
+                    s.getTimestamp()
+            ));
+        }
+        return changeHistory;
+    }
+
+    public List<DTOLastSeen> statisticsToDtoLastSeen(List<Statistic> statistics) {
+        List<DTOLastSeen> lastSeen = new ArrayList<>();
+        for(Statistic s : statistics) {
+            lastSeen.add(new DTOLastSeen(
+                    s.getBusinessObject().getId(),
+                    s.getBusinessObject().getName(),
+                    s.getTimestamp()
+            ));
+        }
+        return lastSeen;
+    }
+
+    public DTORandom boToDtoRandom() {
+        BusinessObject bo = boService.getRandomBusinessObject();
+        return new DTORandom(
+                bo.getId(),
+                bo.getName(),
+                bo.getDescription()
+        );
+    }
 
 }

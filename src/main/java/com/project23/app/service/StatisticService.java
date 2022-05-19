@@ -29,7 +29,7 @@ public class StatisticService {
     }
 
     public List<Statistic> getLastSeen(long userId) {
-        return statisticRepository.getTop5ByActionAndUserOrderByTimestampDesc(3, userId).stream().distinct().toList();
+        return statisticRepository.getTop5ByActionAndUser_IdOrderByTimestampDesc(3, userId).stream().distinct().toList();
     }
 
     public void deleteStatisticByBo(long boId) {

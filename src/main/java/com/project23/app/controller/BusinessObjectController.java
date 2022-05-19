@@ -50,7 +50,7 @@ public class BusinessObjectController {
         BusinessObject bo = m.dtoCreateBoToBo(dtoCBo);
         List<Label> newLabels = new ArrayList();
         for (Label l : bo.getLabels()) {
-            newLabels.add(labelService.addLabelIfNotExists(l.getName()));
+            newLabels.add(labelService.addLabelIfNotExists(l.getName().toUpperCase()));
         }
         bo.setLabels(newLabels);
         businessObjectService.addBusinessObject(bo);
@@ -78,6 +78,9 @@ public class BusinessObjectController {
     @ResponseStatus(value = HttpStatus.CREATED, reason = "Updated Business Object.")
     public void updateBusinessObject(@RequestBody DTOCreateBusinessObject dtoCBo, @PathVariable Long id) {
         BusinessObject bo = m.dtoCreateBoToBo(dtoCBo);
+        for(Label l : bo.getLabels()) {
+            l.setName(l.getName().toUpperCase());
+        }
         businessObjectService.updateBusinessObject(bo, id);
     }
 
