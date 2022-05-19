@@ -9,20 +9,17 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@IdClass(FavouriteKey.class)
 @Table(name = "\"favourite\"", schema = "public")
 public class Favourite {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "favourite_id", nullable = false)
-    private Long id;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "object_id", nullable = false)
-    private BusinessObject businessObject;
+    @Id
+    @Column(name = "object_id", nullable = false)
+    private Long businessObjectId;
 
 
 }

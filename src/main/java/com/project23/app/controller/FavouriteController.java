@@ -34,15 +34,15 @@ public class FavouriteController {
         return favList;
     }
 
-    @PostMapping(path = "/new")
+    @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED, reason = "Created Favourite.")
     public void addFav(@RequestBody DTOFavourite dtoFav){
         favService.addFav(m.dtoFavtoFav(dtoFav));
     }
 
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/{userId}/{businessObjectId}")
     @ResponseStatus(value = HttpStatus.OK, reason = "Deleted Favourite.")
-    public void deleteFav(@PathVariable long id) {
-        favService.deleteFav(id);
+    public void deleteFav(@PathVariable Long userId, @PathVariable Long businessObjectId) {
+        favService.deleteFav(userId, businessObjectId);
     }
 }

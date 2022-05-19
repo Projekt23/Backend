@@ -154,17 +154,15 @@ public class Mapper {
 
     public DTOFavourite favToDtoFav(Favourite f) {
         return new DTOFavourite(
-                f.getId(),
-                f.getUser().getId(),
-                f.getBusinessObject().getId()
+                f.getUserId(),
+                f.getBusinessObjectId()
         );
     }
 
     public Favourite dtoFavtoFav(DTOFavourite df) {
         return new Favourite(
-                df.getId(),
-                userService.getUser(df.getUserId()),
-                boService.getBusinessObject(df.getBusinessObjectId())
+                df.getUserId(),
+                df.getBusinessObjectId()
         );
     }
 
