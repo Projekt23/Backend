@@ -31,15 +31,6 @@ CREATE SEQUENCE public.favourite_favourite_id_seq
     START 1
     CACHE 1
     NO CYCLE;
--- DROP SEQUENCE public.favourite_favourite_id_seq1;
-
-CREATE SEQUENCE public.favourite_favourite_id_seq1
-    INCREMENT BY 1
-    MINVALUE 1
-    MAXVALUE 9223372036854775807
-    START 1
-    CACHE 1
-    NO CYCLE;
 -- DROP SEQUENCE public.label_label_id_seq;
 
 CREATE SEQUENCE public.label_label_id_seq
@@ -123,20 +114,6 @@ CREATE UNIQUE INDEX "user_e-mail_uindex" ON public."user" USING btree (email);
 CREATE UNIQUE INDEX user_username_uindex ON public."user" USING btree (username);
 
 
--- public.bo_context definition
-
--- Drop table
-
--- DROP TABLE public.bo_context;
-
-CREATE TABLE public.bo_context (
-                                   object_id_1 int8 NOT NULL,
-                                   object_id_2 int8 NOT NULL,
-                                   CONSTRAINT bo_2_bo_business_object_object_id_fk FOREIGN KEY (object_id_1) REFERENCES public.business_object(object_id),
-                                   CONSTRAINT bo_2_bo_business_object_object_id_fk_2 FOREIGN KEY (object_id_2) REFERENCES public.business_object(object_id)
-);
-
-
 -- public.bo_2_label definition
 
 -- Drop table
@@ -166,6 +143,20 @@ CREATE TABLE public.bo_2_synonym (
 );
 
 
+-- public.bo_context definition
+
+-- Drop table
+
+-- DROP TABLE public.bo_context;
+
+CREATE TABLE public.bo_context (
+                                   object_id_1 int8 NOT NULL,
+                                   object_id_2 int8 NOT NULL,
+                                   CONSTRAINT bo_2_bo_business_object_object_id_fk FOREIGN KEY (object_id_1) REFERENCES public.business_object(object_id),
+                                   CONSTRAINT bo_2_bo_business_object_object_id_fk_2 FOREIGN KEY (object_id_2) REFERENCES public.business_object(object_id)
+);
+
+
 -- public.favourite definition
 
 -- Drop table
@@ -173,14 +164,13 @@ CREATE TABLE public.bo_2_synonym (
 -- DROP TABLE public.favourite;
 
 CREATE TABLE public.favourite (
-                                  favourite_id bigserial NOT NULL,
                                   user_id int8 NOT NULL,
                                   object_id int8 NOT NULL,
-                                  CONSTRAINT favourite_pk PRIMARY KEY (favourite_id),
+                                  CONSTRAINT favourite_pk PRIMARY KEY (user_id, object_id),
                                   CONSTRAINT favourite_business_object_object_id_fk FOREIGN KEY (object_id) REFERENCES public.business_object(object_id),
                                   CONSTRAINT favourite_user_user_id_fk FOREIGN KEY (user_id) REFERENCES public."user"(user_id)
 );
-CREATE UNIQUE INDEX favourite_favourite_id_uindex ON public.favourite USING btree (favourite_id);
+CREATE UNIQUE INDEX favourite_uindex ON public.favourite USING btree (user_id, object_id);
 
 
 -- public."statistics" definition
