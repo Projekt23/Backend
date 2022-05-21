@@ -28,26 +28,48 @@ public class Mapper {
     public DTOUser userToDtoUser(User user) {
         return new DTOUser(
                 user.getId(),
-                user.getName(),
+                user.getFirstName(),
+                user.getLastName(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword()
         );
     }
+    public User dtoCreateUserToUser(DTOCreateUser dtoCreateUser){
+        User u = new User();
+        u.setUsername(dtoCreateUser.getUsername());
+        u.setPassword(dtoCreateUser.getPassword());
+        u.setEmail(dtoCreateUser.getEMail());
+        u.setFirstName(dtoCreateUser.getFirstName());
+        u.setLastName(dtoCreateUser.getLastName());
+        return u;
+    }
 
+    public User dtoCreateUserToUserWithId(DTOCreateUser dtoCreateUser, long id){
+        User u = new User();
+        u.setId(id);
+        u.setUsername(dtoCreateUser.getUsername());
+        u.setPassword(dtoCreateUser.getPassword());
+        u.setEmail(dtoCreateUser.getEMail());
+        u.setFirstName(dtoCreateUser.getFirstName());
+        u.setLastName(dtoCreateUser.getLastName());
+        return u;
+    }
     public DTOGetUser userToDtoGetUser(User user){
         return new DTOGetUser(
                 user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
                 user.getUsername(),
-                user.getEmail(),
-                user.getName()
+                user.getEmail()
         );
     }
 
     public User dtoUserToUser(DTOUser dtoUser) {
         return new User(
                 dtoUser.getId(),
-                dtoUser.getName(),
+                dtoUser.getFirstName(),
+                dtoUser.getLastName(),
                 dtoUser.getUsername(),
                 dtoUser.getEMail(),
                 dtoUser.getPassword()
@@ -172,7 +194,7 @@ public class Mapper {
             changeHistory.add(new DTOChangeHistory(
                     s.getBusinessObject().getId(),
                     s.getBusinessObject().getName(),
-                    s.getUser().getName(),
+                    s.getUser().getUsername(),
                     s.getTimestamp()
             ));
         }

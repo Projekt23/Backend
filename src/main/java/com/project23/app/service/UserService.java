@@ -54,7 +54,8 @@ public class UserService {
                 user.setUsername(u.getUsername());
             }else throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already used" );
         }
-        user.setName(u.getName());
+        user.setLastName(u.getLastName());
+        user.setFirstName(u.getFirstName());
         user.setPassword(u.getPassword());
         userRepository.save(user);
     }

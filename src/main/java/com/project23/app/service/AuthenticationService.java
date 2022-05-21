@@ -40,6 +40,9 @@ public class AuthenticationService {
 
     private final UserRepository userRepository;
 
+    @Value("${host.frontend.baseurl}")
+    private String baseUrl;
+
     private String createRegistrationMail(String url){
         File in = new File("email.html");
         Document doc = null;
@@ -88,7 +91,7 @@ public class AuthenticationService {
         }
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-        String htmlMsg = createRegistrationMail("http://localhost:8080/api/auth/validate?token="+token);
+        String htmlMsg = createRegistrationMail(baseUrl+"/register#"+token);
         try {
             helper.setText(htmlMsg, true);
             helper.setTo(to);
@@ -100,19 +103,20 @@ public class AuthenticationService {
         }
     }
 
-    public String generateRegisterToken(String mail) {
+    public String generateRegisterToken(String mail, int days, int hours, int minutes, int seconds) {
         String token = null;
         try {
             Algorithm signatureAlgorithm = Algorithm.HMAC256("project23");
             token = JWT.create()
                     .withClaim("email", mail)
-                    .withExpiresAt(dateHelper.createExpriationDate(1,0,0,0))
+                    .withExpiresAt(dateHelper.createExpriationDate(days,hours,minutes,seconds))
                     .sign(signatureAlgorithm);
         } catch (JWTCreationException exception) {
             //Invalid Signing configuration / Couldn't convert Claims.
         }
         return token;
     }
+
     public String validateRegisterToken(String token){
         String email=null;
         try {
@@ -121,9 +125,7 @@ public class AuthenticationService {
                     .build();
             DecodedJWT jwt = verifier.verify(token);
             String JWTemail = jwt.getClaim("email").asString();
-            if(JWTemail!=null){
-                email = JWTemail;
-            }
+            email = JWTemail;
         } catch (JWTVerificationException exception){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Invalid");
         }
@@ -140,15 +142,16 @@ public class AuthenticationService {
             String JWTemail = jwt.getClaim("email").asString();
             String JWTpassword = jwt.getClaim("password").asString();
             String JWTusername = jwt.getClaim("userName").asString();
-            String JWTname = jwt.getClaim("name").asString();
+            String JWTfirstName = jwt.getClaim("firstName").asString();
+            String JWTlastName = jwt.getClaim("lastName").asString();
             Long JWTid = jwt.getClaim("id").asLong();
-            if(JWTemail!=null && JWTpassword!=null && JWTusername!=null && JWTname!=null && JWTid!=null){
-                user.setId(JWTid);
-                user.setPassword(JWTpassword);
-                user.setEmail(JWTemail);
-                user.setName(JWTname);
-                user.setUsername(JWTusername);
-            }
+            user.setId(JWTid);
+            user.setPassword(JWTpassword);
+            user.setEmail(JWTemail);
+            user.setFirstName(JWTfirstName);
+            user.setLastName(JWTlastName);
+            user.setUsername(JWTusername);
+
         } catch (JWTVerificationException exception){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Invalid");
         }
@@ -158,17 +161,17 @@ public class AuthenticationService {
 
 
 
-    private String generateUserToken(User u) {
+    private String generateUserToken(User u, int days, int hours, int minutes, int seconds) {
         String token = null;
         try {
             Algorithm signatureAlgorithm = Algorithm.HMAC256("project23");
             token = JWT.create()
                     .withClaim("email", u.getEmail())
-                    .withClaim("password", u.getPassword())
                     .withClaim("userName", u.getUsername())
-                    .withClaim("name", u.getName())
+                    .withClaim("firstName", u.getFirstName())
+                    .withClaim("lastName", u.getLastName())
                     .withClaim("id", u.getId())
-                    .withExpiresAt(dateHelper.createExpriationDate(30,0,0,0))
+                    .withExpiresAt(dateHelper.createExpriationDate(days,hours,minutes,seconds))
                     .sign(signatureAlgorithm);
         } catch (JWTCreationException exception) {
             //Invalid Signing configuration / Couldn't convert Claims.
@@ -180,7 +183,7 @@ public class AuthenticationService {
         User user = userRepository.findByUsername(username)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found"));
         if(user.getPassword().equals(password)){
-            return generateUserToken(user);
+            return generateUserToken(user,30,0,0,0);
         }else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Wrong Password");
     }
 
@@ -188,7 +191,7 @@ public class AuthenticationService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found"));
         if(user.getPassword().equals(password)){
-            return generateUserToken(user);
+            return generateUserToken(user,30,0,0,0);
         }else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Wrong Password");
     }
 

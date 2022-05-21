@@ -13,6 +13,8 @@ import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -27,12 +29,12 @@ public class AuthenticationController {
     private final Mapper m;
 
     @GetMapping(path = "/jwt")
-    public String generateJWT(@RequestParam String mail){
-        return authService.generateRegisterToken(mail);
+    public String generateJWT(@RequestParam String mail, @RequestParam Integer expSek){
+        return authService.generateRegisterToken(mail,0,0,0,expSek);
     }
     @GetMapping(path = "/mail")
     public void sendRegistrationMail(@RequestParam String mail){
-        String token = authService.generateRegisterToken(mail);
+        String token = authService.generateRegisterToken(mail,1,0,0,0);
         authService.sendRegistrationMail(mail,token);
     }
     @GetMapping(path = "/validateRegisterToken")
@@ -49,7 +51,7 @@ public class AuthenticationController {
 
     @PostMapping(path = "/register")
     public String register(@RequestBody DTOCreateUser user){
-        Long UserID = userService.addUser(user.convertToEntity());
+        Long UserID = userService.addUser(m.dtoCreateUserToUser(user));
         User createdUser = userService.getUser(UserID);
         log.info("ID: "+UserID+"| "+createdUser.toString());
         return authService.authenticateWithEmail(createdUser.getEmail(), createdUser.getPassword());
