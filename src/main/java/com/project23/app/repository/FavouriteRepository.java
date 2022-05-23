@@ -9,5 +9,7 @@ import java.util.List;
 public interface FavouriteRepository extends JpaRepository<Favourite, FavouriteKey> {
 
     public List<Favourite> getFavouritesByUserId(Long userId);
+    public void deleteFavouritesByBusinessObjectId(Long boId);
+    public void deleteFavouritesByUserId(Long userId);
 
 }

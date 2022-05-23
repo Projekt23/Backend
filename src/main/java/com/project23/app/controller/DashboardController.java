@@ -27,10 +27,10 @@ public class DashboardController {
     private final StatisticService statisticService;
 
     @GetMapping
-    public ResponseEntity<DTODashboard> getDashboard() {
+    public ResponseEntity<DTODashboard> getDashboard(@RequestParam Long userId) {
         DTODashboard dashboard = new DTODashboard(
                 m.statisticsToDtoChangeHistory(statisticService.getChangeHistory()),
-                m.statisticsToDtoLastSeen(statisticService.getLastSeen(1)),
+                m.statisticsToDtoLastSeen(statisticService.getLastSeen(userId)),
                 m.boToDtoRandom()
         );
         return ResponseEntity.ok().body(dashboard);

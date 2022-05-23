@@ -36,4 +36,8 @@ public class StatisticService {
         statisticRepository.deleteStatisticByBusinessObject_Id(boId);
     }
 
+    public void deleteStatsticByUser (long userId) {
+        statisticRepository.deleteStatisticByUser_Id(userId);
+    }
+
 }
