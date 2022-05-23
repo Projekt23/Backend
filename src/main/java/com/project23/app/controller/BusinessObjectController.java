@@ -46,42 +46,36 @@ public class BusinessObjectController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED, reason = "Created Business Object.")
-    public void addBusinessObject(@RequestBody DTOCreateBusinessObject dtoCBo){
+    public void addBusinessObject(@RequestBody DTOCreateBusinessObject dtoCBo, @RequestParam Long userId){
         BusinessObject bo = m.dtoCreateBoToBo(dtoCBo);
         List<Label> newLabels = new ArrayList();
         for (Label l : bo.getLabels()) {
             newLabels.add(labelService.addLabelIfNotExists(l.getName().toUpperCase()));
         }
         bo.setLabels(newLabels);
-        businessObjectService.addBusinessObject(bo);
-        statisticService.addStatistic(new Statistic(
-                new Date(System.currentTimeMillis()),
-                bo,
-                1,
-                userService.getUser(1)
-        ));
+        businessObjectService.addBusinessObject(bo, userId);
     }
 
     @GetMapping(path ="/{id}")
-    public ResponseEntity<DTOBusinessObject> getBusinessObject(@PathVariable Long id){
+    public ResponseEntity<DTOBusinessObject> getBusinessObject(@PathVariable Long id, @RequestParam Long userId){
         BusinessObject bo = businessObjectService.getBusinessObject(id);
         statisticService.addStatistic(new Statistic(
                 new Date(System.currentTimeMillis()),
                 bo,
                 3,
-                userService.getUser(1)
+                userService.getUser(userId)
         ));
         return ResponseEntity.ok().body(m.boToDtoBo(bo));
     }
 
     @PutMapping(path = "/{id}")
     @ResponseStatus(value = HttpStatus.CREATED, reason = "Updated Business Object.")
-    public void updateBusinessObject(@RequestBody DTOCreateBusinessObject dtoCBo, @PathVariable Long id) {
+    public void updateBusinessObject(@RequestBody DTOCreateBusinessObject dtoCBo, @PathVariable Long id, @RequestParam Long userId) {
         BusinessObject bo = m.dtoCreateBoToBo(dtoCBo);
         for(Label l : bo.getLabels()) {
             l.setName(l.getName().toUpperCase());
         }
-        businessObjectService.updateBusinessObject(bo, id);
+        businessObjectService.updateBusinessObject(bo, id, userId);
     }
 
     @DeleteMapping(path = "/{id}")

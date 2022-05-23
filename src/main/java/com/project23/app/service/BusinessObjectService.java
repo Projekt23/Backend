@@ -22,11 +22,17 @@ public class BusinessObjectService {
     private final UserService userService;
     private final StatisticService statisticService;
 
-    public void addBusinessObject(BusinessObject bo){
+    public void addBusinessObject(BusinessObject bo, Long userId){
         if(businessObjectRepository.existsByNameAndDescription(bo.getName(), bo.getDescription())){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Business Object already exists");
         } else {
             businessObjectRepository.save(bo);
+            statisticService.addStatistic(new Statistic(
+                    new Date(System.currentTimeMillis()),
+                    bo,
+                    1,
+                    userService.getUser(userId)
+            ));
         }
     }
 
@@ -44,7 +50,7 @@ public class BusinessObjectService {
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Business Object with ID " +id +" found.");
     }
 
-    public void updateBusinessObject(BusinessObject bo, Long id) {
+    public void updateBusinessObject(BusinessObject bo, Long id, Long userId) {
         if(businessObjectRepository.existsById(id)) {
             BusinessObject boToUpdate = businessObjectRepository.getById(id);
             boToUpdate.setName(bo.getName());
@@ -57,7 +63,7 @@ public class BusinessObjectService {
                     new Date(System.currentTimeMillis()),
                     boToUpdate,
                     2,
-                    userService.getUser(1)
+                    userService.getUser(userId)
             ));
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Business Object with ID " +id +" found.");
     }
