@@ -7,10 +7,12 @@ import com.project23.app.repository.FavouriteRepository;
 import com.project23.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class FavouriteService {
 
@@ -32,6 +34,14 @@ public class FavouriteService {
                 boId
         );
         favRepository.deleteById(favKey);
+    }
+
+    public void deleteFavByUser(Long userId) {
+        favRepository.deleteFavouritesByUserId(userId);
+    }
+
+    public void deleteFavByBo(Long boId) {
+        favRepository.deleteFavouritesByBusinessObjectId(boId);
     }
 
 }

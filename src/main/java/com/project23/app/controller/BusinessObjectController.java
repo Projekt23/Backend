@@ -6,10 +6,7 @@ import com.project23.app.dto.DTOBusinessObject;
 import com.project23.app.dto.DTOCreateBusinessObject;
 import com.project23.app.helper.Mapper;
 import com.project23.app.Entity.BusinessObject;
-import com.project23.app.service.BusinessObjectService;
-import com.project23.app.service.LabelService;
-import com.project23.app.service.StatisticService;
-import com.project23.app.service.UserService;
+import com.project23.app.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
@@ -33,6 +30,7 @@ public class BusinessObjectController {
     private final LabelService labelService;
     private final StatisticService statisticService;
     private final UserService userService;
+    private final FavouriteService favouriteService;
 
 
     @GetMapping(path = "/all")
@@ -82,6 +80,7 @@ public class BusinessObjectController {
     @ResponseStatus(value = HttpStatus.OK, reason = "Deleted Business Object.")
     public void deleteBusinessObject(@PathVariable Long id) {
         statisticService.deleteStatisticByBo(id);
+        favouriteService.deleteFavByBo(id);
         businessObjectService.deleteBusinessObject(id);
     }
 
