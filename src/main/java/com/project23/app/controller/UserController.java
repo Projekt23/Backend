@@ -6,6 +6,8 @@ import com.project23.app.dto.DTOGetUser;
 import com.project23.app.dto.DTOUser;
 import com.project23.app.helper.Mapper;
 import com.project23.app.Entity.User;
+import com.project23.app.service.FavouriteService;
+import com.project23.app.service.StatisticService;
 import com.project23.app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -25,6 +27,8 @@ public class UserController {
 
     private final Mapper m;
     private final UserService userService;
+    private final StatisticService statisticService;
+    private final FavouriteService favouriteService;
 
     @GetMapping(path = "/all")
     public List<DTOGetUser> getAllUser(){
@@ -42,8 +46,11 @@ public class UserController {
     }
     @DeleteMapping(path = "/{id}")
     public void deleteUser(@PathVariable long id){
+        statisticService.deleteStatsticByUser(id);
+        favouriteService.deleteFavByUser(id);
         userService.deleteUser(id);
     }
+
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void updateUser(@RequestBody DTOCreateUser user, @PathVariable long id){
         userService.updateUser(m.dtoCreateUserToUserWithId(user, id));
