@@ -46,11 +46,11 @@ public class UserController {
     }
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void updateUser(@RequestBody DTOCreateUser user, @PathVariable long id){
-        userService.updateUser(user.convertToEntityWithId(id));
+        userService.updateUser(m.dtoCreateUserToUserWithId(user, id));
     }
     @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
     public long createUser(@RequestBody DTOCreateUser user){
-        User u  = user.convertToEntity();
+        User u  = m.dtoCreateUserToUser(user);
         return  userService.addUser(u);
     }
 
