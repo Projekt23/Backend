@@ -4,24 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DTOBusinessObject {
-
-    private Long id;
+public class DTOCreateBusinessObject {
 
     private String name;
 
     private String description;
 
-    private List<DTOSynonym> synonyms;
+    private ArrayList<Long> synonymIds;
 
-    private List<DTOLabel> labels;
+    private ArrayList<String> labels;
 
-    private List<DTOContext> contextList;
+    private ArrayList<Long> contextIds;
 
 }
 

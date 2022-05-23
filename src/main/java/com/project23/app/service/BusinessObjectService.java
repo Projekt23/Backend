@@ -1,80 +1,77 @@
 package com.project23.app.service;
 
 import com.project23.app.Entity.BusinessObject;
+import com.project23.app.Entity.Statistic;
+import com.project23.app.Entity.User;
 import com.project23.app.repository.BusinessObjectRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 public class BusinessObjectService {
 
     private final BusinessObjectRepository businessObjectRepository;
+    private final UserService userService;
+    private final StatisticService statisticService;
 
-    public String addBusinessObject(BusinessObject bo){
-        if(businessObjectRepository.existsByName(bo.getName())){
-            return "Object already exists! Please chance existing Object.";
+    public void addBusinessObject(BusinessObject bo){
+        if(businessObjectRepository.existsByNameAndDescription(bo.getName(), bo.getDescription())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Business Object already exists");
         } else {
             businessObjectRepository.save(bo);
-            return "Added Object";
         }
-
-//        List<BusinessObject> boList = getAllBusinessObjects();
-//        if(!boList.isEmpty()) {
-//            for (BusinessObject bObject : boList) {
-//                if (!bObject.getName().equals(bo.getName())) {
-//                    businessObjectRepository.save(bo);
-//                    return "ok";
-//                } else {
-//                    return "Object already exists! Please chance existing Object.";
-//                }
-//            }
-//        } else {
-//            businessObjectRepository.save(bo);
-//            return "ok";
-//        }
-//        return "failed!";
     }
 
     public List<BusinessObject> getAllBusinessObjects(){
-        return (List<BusinessObject>) businessObjectRepository.findAll();
+       try{
+           return businessObjectRepository.findAll();
+       } catch (NoSuchElementException e) {
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Business Objects found.");
+       }
     }
 
     public BusinessObject getBusinessObject(long id){
-        return businessObjectRepository.getById(id);
+        if(businessObjectRepository.existsById(id)) {
+            return businessObjectRepository.getById(id);
+        } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Business Object with ID " +id +" found.");
     }
 
-    // Update whole Object
-    public void updateBusinessObject(BusinessObject bo) {
-        BusinessObject boToUpdate = businessObjectRepository.getById(bo.getId());
-        boToUpdate.setName(bo.getName());
-        boToUpdate.setDescription((bo.getDescription()));
-        boToUpdate.setSourceSystem(bo.getSourceSystem());
-        boToUpdate.setSynonyms(bo.getSynonyms());
-        boToUpdate.setLabels(bo.getLabels());
-        businessObjectRepository.saveAndFlush(boToUpdate);
+    public void updateBusinessObject(BusinessObject bo, Long id) {
+        if(businessObjectRepository.existsById(id)) {
+            BusinessObject boToUpdate = businessObjectRepository.getById(id);
+            boToUpdate.setName(bo.getName());
+            boToUpdate.setDescription((bo.getDescription()));
+            boToUpdate.setSynonyms(bo.getSynonyms());
+            boToUpdate.setLabels(bo.getLabels());
+            boToUpdate.setContext(bo.getContext());
+            businessObjectRepository.saveAndFlush(boToUpdate);
+            statisticService.addStatistic(new Statistic(
+                    new Date(System.currentTimeMillis()),
+                    boToUpdate,
+                    2,
+                    userService.getUser(1)
+            ));
+        } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Business Object with ID " +id +" found.");
     }
 
-//    Update not whole Objects?
-//    public void updateBusinessObject(BusinessObject bo) {
-//        BusinessObject oldbo = businessObjectRepository.getById(bo.getId());
-//        BusinessObject newbo = new BusinessObject();
-//        if(!bo.getName().equals(oldbo.getName()) && !bo.getName().equals(null)) {
-//            newbo.setName(bo.getName());
-//        } else newbo.setName(oldbo.getName());
-//        if(!bo.getDescription().equalsIgnoreCase(oldbo.getDescription().toLowerCase()) && !bo.getDescription().equals(null)) {
-//            newbo.setDescription(bo.getDescription());
-//        } else newbo.setDescription(oldbo.getDescription());
-//        if(!bo.getSourceSystem().equals(oldbo.getSourceSystem()) && !bo.getSourceSystem().equals(null)) {
-//            newbo.setSourceSystem(bo.getSourceSystem());
-//        } else newbo.setSourceSystem(oldbo.getSourceSystem());
-//        // synonyms vergleichen
-//
-//        businessObjectRepository.save(newbo);
-//    }
+    public void deleteBusinessObject(Long id) {
+        try {
 
+            businessObjectRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Business Object with ID " +id +" found.");
+        }
+    }
 
-
+    public BusinessObject getRandomBusinessObject() {
+        return businessObjectRepository.getById((long)businessObjectRepository.getRandomBusinessObjectId());
+    }
 }

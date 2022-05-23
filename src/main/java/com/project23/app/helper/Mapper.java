@@ -1,12 +1,10 @@
 package com.project23.app.helper;
 
+import com.project23.app.Entity.*;
 import com.project23.app.dto.*;
-import com.project23.app.Entity.BusinessObject;
-import com.project23.app.Entity.Label;
-import com.project23.app.Entity.User;
+import com.project23.app.service.*;
 import com.project23.app.service.BusinessObjectService;
 import com.project23.app.service.LabelService;
-import com.project23.app.service.SourceSystemService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,10 +17,10 @@ import java.util.List;
 public class Mapper {
 
     @Autowired
-    private final SourceSystemService sourceSystemService;
+    private final BusinessObjectService boService;
 
     @Autowired
-    private final BusinessObjectService boService;
+    private final UserService userService;
 
     @Autowired
     private final LabelService labelService;
@@ -57,14 +55,13 @@ public class Mapper {
     }
 
 
-    public BusinessObject dtoBoToBo(DTOBusinessObject dtoBo){
+    public BusinessObject dtoCreateBoToBo(DTOCreateBusinessObject dtoCBo){
         return new BusinessObject(
-                dtoBo.getId(),
-                dtoBo.getName(),
-                dtoBo.getDescription(),
-                sourceSystemService.getSourceSystem(dtoBo.getSourceSystemId()),
-                dtoSynonymToBoList(dtoBo.getSynonyms()),
-                dtoLabelToLabel(dtoBo.getLabels())
+                dtoCBo.getName(),
+                dtoCBo.getDescription(),
+                dtoSynonymToBoList(dtoCBo.getSynonymIds()),
+                dtoLabelToLabelList(dtoCBo.getLabels()),
+                dtoContextToBoList(dtoCBo.getContextIds())
         );
     }
 
@@ -73,9 +70,9 @@ public class Mapper {
                 bo.getId(),
                 bo.getName(),
                 bo.getDescription(),
-                bo.getSourceSystem().getId(),
                 boToDtoSynonymList(bo.getSynonyms()),
-                labelToDtoLabel(bo.getLabels())
+                labelToDtoLabelList(bo.getLabels()),
+                boToDtoContextList(bo.getContext())
         );
     }
 
@@ -91,43 +88,116 @@ public class Mapper {
         return synonyms;
     }
 
-    public List<BusinessObject> dtoSynonymToBoList(List<DTOSynonym> dtoSynonyms) {
+    public List<BusinessObject> dtoSynonymToBoList(ArrayList<Long> synonymIds) {
         List<BusinessObject> boList = new ArrayList<>();
-        if (!dtoSynonyms.isEmpty()) {
-            for(DTOSynonym dtoSynonym : dtoSynonyms) {
-                boList.add(boService.getBusinessObject(dtoSynonym.getId()));
+        if (!synonymIds.isEmpty()) {
+            for(Long id : synonymIds) {
+                boList.add(boService.getBusinessObject(id));
             }
         }
         return boList;
     }
 
-    public List<DTOLabel> labelToDtoLabel(List<Label> labels) {
+    public List<DTOContext> boToDtoContextList(List<BusinessObject> boList) {
+        ArrayList<DTOContext> contextList = new ArrayList<>();
+        for(BusinessObject bo : boList) {
+            contextList.add(new DTOContext(
+                    bo.getId(),
+                    bo.getName(),
+                    bo.getDescription()
+            ));
+        }
+        return contextList;
+    }
+
+    public List<BusinessObject> dtoContextToBoList(ArrayList<Long> contextIds) {
+        List<BusinessObject> boList = new ArrayList<>();
+        if (!contextIds.isEmpty()) {
+            for(Long id : contextIds) {
+                boList.add(boService.getBusinessObject(id));
+            }
+        }
+        return boList;
+    }
+
+    public List<DTOLabel> labelToDtoLabelList(List<Label> labels) {
         List<DTOLabel> dtoLabels = new ArrayList<>();
         for(Label l : labels) {
-            dtoLabels.add(new DTOLabel(
-                    l.getId(),
-                    l.getName()
-            ));
+            dtoLabels.add(labelToDtoLabel(l));
         }
         return dtoLabels;
     }
 
-    public List<Label> dtoLabelToLabel(List<DTOLabel> dtoLabels) {
-        List<Label> labelIdName = new ArrayList<>();
+    public List<Label> dtoLabelToLabelList(ArrayList<String> labelNames) {
         List<Label> labels = new ArrayList<>();
-        if(!dtoLabels.isEmpty()) {
-            for(DTOLabel dl : dtoLabels) {
-                labelIdName.add(new Label(dl.getId(), dl.getName()));
-            }
-        }
-        if(!labelIdName.isEmpty()) {
-            for(Label l : labelIdName) {
-                labels.add(new Label(l.getId(), l.getName()));
+        if(!labelNames.isEmpty()) {
+            for(String label : labelNames) {
+                labels.add(labelStringToLabel(label));
             }
         }
         return labels;
     }
 
+    public DTOLabel labelToDtoLabel(Label l) {
+        return new DTOLabel(
+                    l.getId(),
+                    l.getName());
+    }
 
+    public Label labelStringToLabel (String label) {
+       return labelService.addLabelIfNotExists(label);
+    }
+
+    public Label dtoLabelToLabel(DTOLabel dl) {
+        return new Label(dl.getId(), dl.getName());
+    }
+
+    public DTOFavourite favToDtoFav(Favourite f) {
+        return new DTOFavourite(
+                f.getUserId(),
+                f.getBusinessObjectId()
+        );
+    }
+
+    public Favourite dtoFavtoFav(DTOFavourite df) {
+        return new Favourite(
+                df.getUserId(),
+                df.getBusinessObjectId()
+        );
+    }
+
+    public List<DTOChangeHistory> statisticsToDtoChangeHistory(List<Statistic> statistics) {
+        List<DTOChangeHistory> changeHistory = new ArrayList<>();
+        for(Statistic s : statistics) {
+            changeHistory.add(new DTOChangeHistory(
+                    s.getBusinessObject().getId(),
+                    s.getBusinessObject().getName(),
+                    s.getUser().getName(),
+                    s.getTimestamp()
+            ));
+        }
+        return changeHistory;
+    }
+
+    public List<DTOLastSeen> statisticsToDtoLastSeen(List<Statistic> statistics) {
+        List<DTOLastSeen> lastSeen = new ArrayList<>();
+        for(Statistic s : statistics) {
+            lastSeen.add(new DTOLastSeen(
+                    s.getBusinessObject().getId(),
+                    s.getBusinessObject().getName(),
+                    s.getTimestamp()
+            ));
+        }
+        return lastSeen;
+    }
+
+    public DTORandom boToDtoRandom() {
+        BusinessObject bo = boService.getRandomBusinessObject();
+        return new DTORandom(
+                bo.getId(),
+                bo.getName(),
+                bo.getDescription()
+        );
+    }
 
 }
