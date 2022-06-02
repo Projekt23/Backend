@@ -32,4 +32,5 @@ public class Statistic {
     private User user;
 
 
+
 }
