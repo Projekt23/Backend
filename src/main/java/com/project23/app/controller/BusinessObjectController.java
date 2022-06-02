@@ -9,11 +9,14 @@ import com.project23.app.Entity.BusinessObject;
 import com.project23.app.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import org.hibernate.internal.util.ZonedDateTimeComparator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,7 +61,7 @@ public class BusinessObjectController {
     public ResponseEntity<DTOBusinessObject> getBusinessObject(@PathVariable Long id, @RequestParam Long userId){
         BusinessObject bo = businessObjectService.getBusinessObject(id);
         statisticService.addStatistic(new Statistic(
-                new Date(System.currentTimeMillis()),
+                ZonedDateTime.now(ZoneId.of("GMT+2")),
                 bo,
                 3,
                 userService.getUser(userId)

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 
@@ -15,6 +16,6 @@ public class DTOChangeHistory {
     private Long boId;
     private String boName;
     private String userName;
-    private Date timestamp;
+    private ZonedDateTime timestamp;
 
 }
