@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -28,7 +30,7 @@ public class BusinessObjectService {
         } else {
             businessObjectRepository.save(bo);
             statisticService.addStatistic(new Statistic(
-                    new Date(System.currentTimeMillis()),
+                    ZonedDateTime.now(ZoneId.of("GMT+2")),
                     bo,
                     1,
                     userService.getUser(userId)
@@ -60,7 +62,7 @@ public class BusinessObjectService {
             boToUpdate.setContext(bo.getContext());
             businessObjectRepository.saveAndFlush(boToUpdate);
             statisticService.addStatistic(new Statistic(
-                    new Date(System.currentTimeMillis()),
+                    ZonedDateTime.now(ZoneId.of("GMT+2")),
                     boToUpdate,
                     2,
                     userService.getUser(userId)
