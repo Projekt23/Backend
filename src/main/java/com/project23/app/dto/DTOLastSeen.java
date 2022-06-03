@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 
@@ -14,6 +15,6 @@ public class DTOLastSeen {
 
     private Long boId;
     private String boName;
-    private Date timestamp;
+    private ZonedDateTime timestamp;
 
 }

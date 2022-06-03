@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Data
@@ -16,8 +17,7 @@ public class Statistic {
     @Id
     @Basic(optional = false)
     @Column(name = "timestamp", insertable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date timestamp;
+    private ZonedDateTime timestamp;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "object_id")

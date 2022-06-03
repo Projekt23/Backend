@@ -8,14 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DTOFavourite {
+public class DTOCreateFavourite {
 
     private Long userId;
 
     private Long businessObjectId;
-
-    private String businessObjectName;
-
-    private String businessObjectDescription;
 
 }
