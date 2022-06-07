@@ -2,19 +2,20 @@ package com.project23.app.service;
 
 import com.project23.app.Entity.BusinessObject;
 import com.project23.app.Entity.Statistic;
-import com.project23.app.Entity.User;
 import com.project23.app.repository.BusinessObjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+/**
+ * Service-Klasse für Operationen der Entität BusinessObject (get, add, update, delete).
+ */
 
 @Service
 @RequiredArgsConstructor

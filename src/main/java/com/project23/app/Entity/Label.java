@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * JPA-Entity Label zum Datentransfer zwischen der Spring-Web-Applikation und der Datenbank.
+ */
+
 @Data
 @Entity
 @AllArgsConstructor

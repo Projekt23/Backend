@@ -8,6 +8,10 @@ import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
+/**
+ * JPA-Entity Statistic zum Datentransfer zwischen der Spring-Web-Applikation und der Datenbank.
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

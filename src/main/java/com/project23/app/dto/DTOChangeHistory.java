@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
+/**
+ * DTO-Klasse zum Datentransfer zwischen Spring-Web-Applikation und Web-Client entsprechend der API-Spezifikation.
+ */
 
 @Data
 @AllArgsConstructor

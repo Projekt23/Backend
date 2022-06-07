@@ -1,9 +1,7 @@
 package com.project23.app.controller;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.project23.app.dto.DTOCreateUser;
 import com.project23.app.dto.DTOGetUser;
-import com.project23.app.dto.DTOUser;
 import com.project23.app.helper.Mapper;
 import com.project23.app.Entity.User;
 import com.project23.app.service.FavouriteService;
@@ -17,6 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Controller-Klasse für den Datentransfer zwischen der Spring-Web-Applikation und dem Web-Client.
+ * Stellt diverse Endpunkte für die Entität User zur Verfügung.
+ */
 
 @RestController
 @RequiredArgsConstructor

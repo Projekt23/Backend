@@ -9,17 +9,19 @@ import com.project23.app.Entity.BusinessObject;
 import com.project23.app.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
-import org.hibernate.internal.util.ZonedDateTimeComparator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+/**
+ * Controller-Klasse für den Datentransfer zwischen der Spring-Web-Applikation und dem Web-Client.
+ * Stellt diverse Endpunkte für die Entität BusinessObject zur Verfügung.
+ */
 
 @RestController
 @RequiredArgsConstructor

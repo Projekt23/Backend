@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * JPA-Entity BusinessObject zum Datentransfer zwischen der Spring-Web-Applikation und der Datenbank.
+ */
+
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Data
 @AllArgsConstructor

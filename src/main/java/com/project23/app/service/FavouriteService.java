@@ -11,6 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Service-Klasse für Operationen der Entität Favourite (get, add, delete).
+ */
+
 @Service
 @Transactional
 @RequiredArgsConstructor

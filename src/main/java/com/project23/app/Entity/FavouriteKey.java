@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * Zusammengesetzter Primärschlüssel für die Entity Favourite.
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

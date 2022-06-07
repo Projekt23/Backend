@@ -10,6 +10,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+/**
+ * Service-Klasse für Operationen der Entität Label (get, add, update, delete).
+ */
+
 @Service
 @RequiredArgsConstructor
 public class LabelService {

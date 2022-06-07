@@ -9,6 +9,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+/**
+ * Service-Klasse für Operationen der Entität User (get, add, update, delete).
+ */
+
 @Service
 @RequiredArgsConstructor
 public class UserService {

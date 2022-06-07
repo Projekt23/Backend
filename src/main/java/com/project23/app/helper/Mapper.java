@@ -12,6 +12,10 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Klasse zum Konvertieren zwischen Entität-Objekten und DTO-Objekten, im Falle des Datentransfers zwischen Spring-Web-Applikation und Web-Client.
+ */
+
 @AllArgsConstructor
 @Component
 public class Mapper {

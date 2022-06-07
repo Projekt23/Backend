@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DTO-Klasse zum Datentransfer zwischen Spring-Web-Applikation und Web-Client entsprechend der API-Spezifikation.
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

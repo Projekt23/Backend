@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controller-Klasse für den Datentransfer zwischen der Spring-Web-Applikation und dem Web-Client.
+ * Stellt diverse Endpunkte für die Entität Label zur Verfügung.
+ */
+
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")

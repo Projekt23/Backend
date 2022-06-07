@@ -5,6 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+/**
+ * JPA-Entity Favourite zum Datentransfer zwischen der Spring-Web-Applikation und der Datenbank.
+ */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

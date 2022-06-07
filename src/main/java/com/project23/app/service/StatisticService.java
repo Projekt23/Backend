@@ -1,8 +1,6 @@
 package com.project23.app.service;
 
-import com.project23.app.Entity.Favourite;
 import com.project23.app.Entity.Statistic;
-import com.project23.app.repository.FavouriteRepository;
 import com.project23.app.repository.StatisticRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+/**
+ * Service-Klasse für Operationen der Entität Statistic (get, add, delete).
+ */
 
 @Service
 @RequiredArgsConstructor

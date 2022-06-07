@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 
+/**
+ * Controller-Klasse für den Datentransfer zwischen der Spring-Web-Applikation und dem Web-Client.
+ * Stellt diverse Endpunkte für die Authentifizierung zur Verfügung.
+ */
 
 @RestController
 @RequiredArgsConstructor
