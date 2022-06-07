@@ -7,6 +7,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +20,30 @@ public class CSVHelper {
     }
 
     public static List<BusinessObject> csvToBusinessObjects(InputStream inputStream){
-        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
              CSVParser csvParser = new CSVParser(fileReader,
-                     CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
+                            CSVFormat.Builder.create()
+                            .setDelimiter(',')
+                            .setQuote('"')
+                            .setRecordSeparator("\r\n")
+                            .setIgnoreEmptyLines(true)
+                            .setHeader(HEADERS)
+                            .setSkipHeaderRecord(true)
+                            .setIgnoreHeaderCase(true)
+                            .setTrim(true)
+                            .build())) {
             List<BusinessObject> businessObjects = new ArrayList<>();
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
             for (CSVRecord csvRecord : csvRecords) {
                 BusinessObject businessObject = new BusinessObject();
-                businessObject.setName(csvRecord.get("title"));
-                businessObject.setDescription(csvRecord.get("description"));
-
+                if (csvRecord.size()==HEADERS.length){
+                    businessObject.setName(csvRecord.get("title"));
+                    businessObject.setDescription(csvRecord.get("description"));
+                }else {
+                    String[] recordArray = csvRecord.toList().get(0).split(",", 3);
+                    businessObject.setName(recordArray[1]);
+                    businessObject.setDescription(recordArray[2].replace('"',' ').trim());
+                }
                 businessObjects.add(businessObject);
             }
             return businessObjects;

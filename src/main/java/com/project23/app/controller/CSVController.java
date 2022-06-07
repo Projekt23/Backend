@@ -21,14 +21,14 @@ public class CSVController {
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadCSVFile(@RequestParam("file")MultipartFile file){
-        String responseMessage = "";
+        String responseMessage;
         if(CSVHelper.hasCSVFormat(file)){
             try {
                 csvService.save(file);
                 responseMessage= "Uploaded file successfully: " + file.getOriginalFilename();
                 return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
             }catch (Exception e){
-                responseMessage = "Couldn't upload the file: " + file.getOriginalFilename() + "!";
+                responseMessage = "Couldn't upload the file: " + file.getOriginalFilename() + "! Please check the data.";
                 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(responseMessage);
             }
         }
