@@ -17,26 +17,4 @@ public class SwaggerConfig {
                 .pathsToMatch("/**")
                 .build();
     }
-    /**
-     * Label Api Dokumentations- und Test-Seite
-     * @return OpenApi Label
-     */
-    @Bean
-    public GroupedOpenApi labelApi() {
-        return GroupedOpenApi.builder()
-                .group("label-api")
-                .pathsToMatch("/api/label/*")
-                .build();
-    }
-    /**
-     * Label Api Dokumentations- und Test-Seite
-     * @return OpenApi Favourite
-     */
-    @Bean
-    public GroupedOpenApi favouriteApi() {
-        return GroupedOpenApi.builder()
-                .group("favourite-api")
-                .pathsToMatch("/api/favourite/*")
-                .build();
-    }
 }
