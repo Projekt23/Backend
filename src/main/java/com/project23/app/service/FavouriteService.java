@@ -21,17 +21,29 @@ import java.util.List;
 public class FavouriteService {
 
     private final FavouriteRepository favRepository;
-    private final UserService userService;
-    private final BusinessObjectService boService;
 
+    /**
+     * Speichert ein BusinessObject als Favorit für den angemeldeten User.
+     * @param f Favourite
+     */
     public void addFav(Favourite f){
         favRepository.save(f);
     }
 
+    /**
+     * Gibt Favoriten eines Users zurück
+     * @param userId User, dessen Favoriten zurückggeben werden
+     * @return Liste von Favoriten
+     */
     public List<Favourite> getFavUser(Long userId) {
         return favRepository.getFavouritesByUserId(userId);
     }
 
+    /**
+     * Löscht ein BusinessObject aus den Favoriten.
+     * @param userId User, dessen Favoriten bearbeitet werden
+     * @param boId ID des BusinessObjects, das aus den Favoriten gelöscht wird
+     */
     public void deleteFav(Long userId, Long boId) {
         FavouriteKey favKey = new FavouriteKey(
                 userId,
@@ -40,10 +52,18 @@ public class FavouriteService {
         favRepository.deleteById(favKey);
     }
 
+    /**
+     * Löscht alle Favoriten eines Users.
+     * @param userId User, dessen Favoriten gelöscht werden
+     */
     public void deleteFavByUser(Long userId) {
         favRepository.deleteFavouritesByUserId(userId);
     }
 
+    /**
+     * Löscht alle Favoriten, die in Relation zu einem bestimmten BusinessObject stehen.
+     * @param boId BusinessObject, das aus allen Favoriten entfernt wird
+     */
     public void deleteFavByBo(Long boId) {
         favRepository.deleteFavouritesByBusinessObjectId(boId);
     }

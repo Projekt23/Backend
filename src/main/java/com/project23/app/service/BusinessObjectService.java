@@ -25,6 +25,11 @@ public class BusinessObjectService {
     private final UserService userService;
     private final StatisticService statisticService;
 
+    /**
+     * Speichert ein BusinessObject in der Datenbank. Prüft zuvor, ob Objektbeschreibung und Objektname bereits vorhanden sind.
+     * @param bo BusinessObject, das in Datenbank gespeichert werden soll
+     * @param userId User, der das BusinessObject anlegt
+     */
     public void addBusinessObject(BusinessObject bo, Long userId){
         if(businessObjectRepository.existsByNameAndDescription(bo.getName(), bo.getDescription())){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Business Object already exists");
@@ -39,6 +44,10 @@ public class BusinessObjectService {
         }
     }
 
+    /**
+     * Gibt alle BusinessObjects zurück.
+     * @return Liste mit allen BusinessObjects
+     */
     public List<BusinessObject> getAllBusinessObjects(){
        try{
            return businessObjectRepository.findAll();
@@ -47,12 +56,23 @@ public class BusinessObjectService {
        }
     }
 
+    /**
+     * Gibt ein BusinessObject entsprechend der ID zurück.
+     * @param id ID des gewünschten BusinessObjects
+     * @return BusinessObject
+     */
     public BusinessObject getBusinessObject(long id){
         if(businessObjectRepository.existsById(id)) {
             return businessObjectRepository.getById(id);
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Business Object with ID " +id +" found.");
     }
 
+    /**
+     * Aktualisiert ein BusinessObject.
+     * @param bo Neue Ausprägung des BusinessObjects
+     * @param id ID des zu ändernden BusinessObjects
+     * @param userId User, der das BusinessObject ändert
+     */
     public void updateBusinessObject(BusinessObject bo, Long id, Long userId) {
         if(businessObjectRepository.existsById(id)) {
             BusinessObject boToUpdate = businessObjectRepository.getById(id);
@@ -71,6 +91,10 @@ public class BusinessObjectService {
         } else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Business Object with ID " +id +" found.");
     }
 
+    /**
+     * Löscht ein BusinessObject.
+     * @param id ID des zu löschenden BusinessObjects
+     */
     public void deleteBusinessObject(Long id) {
         try {
 
@@ -80,6 +104,10 @@ public class BusinessObjectService {
         }
     }
 
+    /**
+     * Gibt ein zufälliges BusinessObject aus der Datenbank zurück.
+     * @return BusinessObject
+     */
     public BusinessObject getRandomBusinessObject() {
         return businessObjectRepository.getById((long)businessObjectRepository.getRandomBusinessObjectId());
     }
