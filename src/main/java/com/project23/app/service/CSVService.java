@@ -12,12 +12,20 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Service-Klasse für eine Operation der Entität BusinessObject (add)
+ */
+
 @Service
 @RequiredArgsConstructor
 public class CSVService {
 
     private final BusinessObjectRepository businessObjectRepository;
 
+    /**
+     * Speichert eine Menge an BusinessObject in der Datenbank.
+     * @param file CSV-File, mit einer multiplen Anzahl an BusinessObjects, die in der Datenbank gespeichert werden sollen
+     */
     public void save(MultipartFile file){
         try {
             List<BusinessObject> businessObjects = CSVHelper.csvToBusinessObjects(file.getInputStream());

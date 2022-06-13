@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * Controller-Klasse für den Datentransfer zwischen der Spring-Web-Applikation und dem Web-Client.
+ * Stellt einen Endpunkt für den Import der Entität BusinessObject zur Verfügung.
+ */
+
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
@@ -28,7 +33,7 @@ public class CSVController {
                 responseMessage= "Uploaded file successfully: " + file.getOriginalFilename();
                 return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
             }catch (Exception e){
-                responseMessage = "Couldn't upload the file: " + file.getOriginalFilename() + "! Please check the data.";
+                responseMessage = "Couldn't upload the file: " + file.getOriginalFilename() + "! Please check the data. No commas in the title.";
                 return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(responseMessage);
             }
         }

@@ -11,14 +11,28 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Klasse zum Konventieren des CSV-Files in eine Liste aus BusinessObject und zur Formatüberprüfung.
+ */
+
 public class CSVHelper {
     public static String TYPE = "text/csv";
     static String[] HEADERS = {"id", "title", "description"};
 
+    /**
+     * Funktion zur Formatüberprüfung
+     * @param file Importierte CSV-Datei
+     * @return true, wenn das Dateiformat csv ist
+     */
     public static boolean hasCSVFormat(MultipartFile file){
         return TYPE.equals(file.getContentType());
     }
 
+    /**
+     * Parst die CSV-Daten in die Entität BusinessObject
+     * @param inputStream CSV-Daten
+     * @return Liste der Entität BusinessObject
+     */
     public static List<BusinessObject> csvToBusinessObjects(InputStream inputStream){
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
              CSVParser csvParser = new CSVParser(fileReader,
