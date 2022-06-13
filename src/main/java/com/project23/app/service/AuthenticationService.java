@@ -43,6 +43,11 @@ public class AuthenticationService {
     @Value("${host.frontend.baseurl}")
     private String baseUrl;
 
+    /**
+     * Erstellt eine E-Mail als String mit Url spezifischer Weiterleitung. Hierfür wird das Template unter <a href="file:../resources/mail.html">/resources/mail.html</a> verwendet.
+     * @param url Verlinkung in der E-Mail
+     * @return E-Mail als String
+     */
     private String createRegistrationMail(String url){
         File in = new File("email.html");
         Document doc = null;
@@ -60,6 +65,12 @@ public class AuthenticationService {
         return doc.toString();
     }
 
+    /**
+     * Hilfsmethode um eine Datei aus einem InputStream zu erstellen
+     * @param inputStream InputStream
+     * @param file Output File
+     * @throws IOException
+     */
     private void copyInputStreamToFile(InputStream inputStream, File file)
             throws IOException {
 
@@ -73,6 +84,12 @@ public class AuthenticationService {
         }
 
     }
+
+    /**
+     * Hilfsmethode um E-Mail zu validieren
+     * @param email Zu validierende E-Mail
+     * @return
+     */
     public static boolean eMailIsValid(String email)
     {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
@@ -85,6 +102,12 @@ public class AuthenticationService {
             return false;
         return pat.matcher(email).matches();
     }
+
+    /**
+     * Methode um Registrierungs Mail zu versenden.
+     * @param to E-Mail Empfänger
+     * @param token Registrierungstoken
+     */
     public void sendRegistrationMail(String to, String token) {
         if(!eMailIsValid(to)){
             throw new ResponseStatusException(HttpStatus.CONFLICT,"E-Mail is not valid");
@@ -103,6 +126,15 @@ public class AuthenticationService {
         }
     }
 
+    /**
+     * Erstellt einen Registrierungstoken
+     * @param mail  Mail, welche im Token hinterlegt wird
+     * @param days  Tage bis der Token expired
+     * @param hours Stunden bis der Token expired
+     * @param minutes Minuten bis der Token expired
+     * @param seconds Secunden bis der Token expired
+     * @return Registrierungstoken
+     */
     public String generateRegisterToken(String mail, int days, int hours, int minutes, int seconds) {
         String token = null;
         try {
@@ -117,6 +149,11 @@ public class AuthenticationService {
         return token;
     }
 
+    /**
+     * Methode um Registrierungstoken zu validieren
+     * @param token Registrierungstoken
+     * @return True oder False
+     */
     public String validateRegisterToken(String token){
         String email=null;
         try {
@@ -132,6 +169,11 @@ public class AuthenticationService {
         return email;
     }
 
+    /**
+     * Methode um Usertoken zu validieren
+     * @param token Registrierungstoken
+     * @return True oder False
+     */
     public User validateUserToken(String token){
         User user = new User();
         try {
@@ -159,8 +201,15 @@ public class AuthenticationService {
     }
 
 
-
-
+    /**
+     * Erstellt einen Usertoken
+     * @param u User welcher im Token hinterlegt wird
+     * @param days  Tage bis der Token expired
+     * @param hours Stunden bis der Token expired
+     * @param minutes Minuten bis der Token expired
+     * @param seconds Secunden bis der Token expired
+     * @return Userstoken
+     */
     private String generateUserToken(User u, int days, int hours, int minutes, int seconds) {
         String token = null;
         try {
@@ -179,6 +228,12 @@ public class AuthenticationService {
         return token;
     }
 
+    /**
+     * Methode um Nutzer mit dem Nutzername/Passwort zu authentifizieren
+     * @param username Nutzername
+     * @param password Passwort
+     * @return Usertoken
+     */
     public String authenticateWithUserName(String username, String password){
         User user = userRepository.findByUsername(username)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found"));
@@ -187,6 +242,12 @@ public class AuthenticationService {
         }else throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Wrong Password");
     }
 
+    /**
+     * Methode um Nutzer mit Email/Passwort zu authentifizieren
+     * @param email Email
+     * @param password Passwort
+     * @return Usertoken
+     */
     public String authenticateWithEmail(String email, String password){
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found"));
